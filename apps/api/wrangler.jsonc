@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "agenthub-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  // Somente D1 na Fase 1. KV e R2 NÃO são usados (ver docs/free-tier-limits.md).
+  // database_id é definido no provisionamento (wrangler d1 create); localmente não é necessário.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "agenthub",
+      "migrations_dir": "migrations",
+    },
+  ],
+  // Valores NÃO secretos. Segredos (PASSWORD_PEPPER, TURNSTILE_SECRET_KEY) ficam em
+  // `wrangler secret put` em produção e em .dev.vars (gitignored) em desenvolvimento.
+  "vars": {
+    "ENVIRONMENT": "production",
+    "TURNSTILE_MODE": "enforce",
+    "TURNSTILE_SITE_KEY": "",
+    "APP_ORIGINS": "",
+    "SIGNUP_OPEN": "true",
+    "GLOBAL_SIGNUPS_PER_DAY": "1000",
+    "GLOBAL_LOGINS_PER_DAY": "5000",
+  },
+  "observability": { "enabled": false },
+}

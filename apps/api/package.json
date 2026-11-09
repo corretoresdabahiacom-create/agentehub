@@ -1,0 +1,30 @@
+{
+  "name": "@agenthub/api",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply agenthub --local",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@agenthub/shared": "*",
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.6.0",
+    "nanoid": "^5.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261109.1",
+    "drizzle-kit": "^0.31.0",
+    "msw": "^2.6.0",
+    "vitest": "^4.1.0",
+    "wrangler": "^4.0.0",
+    "@cloudflare/vitest-plugin": "^1.6.1",
+    "typescript": "^5.9.0"
+  }
+}

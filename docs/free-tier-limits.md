@@ -4,31 +4,31 @@ Verificado em **2026-11-09** nas páginas oficiais em `developers.cloudflare.com
 
 ## 1. Limites vigentes (plano Workers Free / Free)
 
-| Recurso | Limite free | Se exceder | Fonte |
-|---|---|---|---|
-| Workers: requisições | 100.000 / dia (reset 00:00 UTC) | Erro 1027 (sem cobrança) | [Workers limits](https://developers.cloudflare.com/workers/platform/limits/) |
-| Workers: CPU por requisição HTTP | **10 ms** | Requisição abortada | idem |
-| Workers: subrequests por requisição | 50 | Erro | idem |
-| Workers: memória por isolate | 128 MB | Erro | idem |
-| Workers: tamanho do Worker | 64 MiB | Deploy falha | idem |
-| Workers: Cron Triggers | 5 por conta, 10 ms CPU cada | n/a | idem |
-| Workers: variáveis de ambiente | 64 por Worker, 5 KB cada | n/a | idem |
-| D1: linhas lidas | 5.000.000 / dia | Queries bloqueadas até 00:00 UTC (sem cobrança) | [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/) |
-| D1: linhas escritas | **100.000 / dia** | idem | idem |
-| D1: armazenamento | 5 GB total; 10 bancos | Inserts/DDL bloqueados | idem |
-| KV: leituras | 100.000 / dia | Operação falha com erro | [KV pricing](https://developers.cloudflare.com/kv/platform/pricing) |
-| KV: escritas | **1.000 / dia** | idem | idem |
-| KV: deletes / lists | 1.000 / dia cada | idem | idem |
-| KV: armazenamento | 1 GB | Não documentado | idem |
-| R2: armazenamento | 10 GB-mês (só Standard) | Cobrança (!) | [R2 pricing](https://developers.cloudflare.com/r2/pricing/index.md) |
-| R2: Classe A / Classe B | 1 M / 10 M por mês | Cobrança (!) | idem |
-| R2: egress | Gratuito | n/a | idem |
-| Pages: builds | 500 / mês, 1 simultâneo | Build bloqueado | [Pages limits](https://developers.cloudflare.com/pages/platform/limits) |
-| Pages: arquivos / tamanho | 20.000 / 25 MiB cada | Deploy falha | idem |
-| Pages: projetos / domínios | 100 por conta / 100 por projeto | n/a | idem |
-| Pages Functions | Contam na cota de requisições do Workers | Ver Workers | idem |
-| Turnstile: widgets | 20 por conta; 10 hostnames por widget | n/a | [Turnstile plans](https://developers.cloudflare.com/turnstile/plans) |
-| Turnstile: verificações | Ilimitadas; analytics 7 dias | n/a | idem |
+| Recurso                             | Limite free                              | Se exceder                                      | Fonte                                                                        |
+| ----------------------------------- | ---------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------- |
+| Workers: requisições                | 100.000 / dia (reset 00:00 UTC)          | Erro 1027 (sem cobrança)                        | [Workers limits](https://developers.cloudflare.com/workers/platform/limits/) |
+| Workers: CPU por requisição HTTP    | **10 ms**                                | Requisição abortada                             | idem                                                                         |
+| Workers: subrequests por requisição | 50                                       | Erro                                            | idem                                                                         |
+| Workers: memória por isolate        | 128 MB                                   | Erro                                            | idem                                                                         |
+| Workers: tamanho do Worker          | 64 MiB                                   | Deploy falha                                    | idem                                                                         |
+| Workers: Cron Triggers              | 5 por conta, 10 ms CPU cada              | n/a                                             | idem                                                                         |
+| Workers: variáveis de ambiente      | 64 por Worker, 5 KB cada                 | n/a                                             | idem                                                                         |
+| D1: linhas lidas                    | 5.000.000 / dia                          | Queries bloqueadas até 00:00 UTC (sem cobrança) | [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/)         |
+| D1: linhas escritas                 | **100.000 / dia**                        | idem                                            | idem                                                                         |
+| D1: armazenamento                   | 5 GB total; 10 bancos                    | Inserts/DDL bloqueados                          | idem                                                                         |
+| KV: leituras                        | 100.000 / dia                            | Operação falha com erro                         | [KV pricing](https://developers.cloudflare.com/kv/platform/pricing)          |
+| KV: escritas                        | **1.000 / dia**                          | idem                                            | idem                                                                         |
+| KV: deletes / lists                 | 1.000 / dia cada                         | idem                                            | idem                                                                         |
+| KV: armazenamento                   | 1 GB                                     | Não documentado                                 | idem                                                                         |
+| R2: armazenamento                   | 10 GB-mês (só Standard)                  | Cobrança (!)                                    | [R2 pricing](https://developers.cloudflare.com/r2/pricing/index.md)          |
+| R2: Classe A / Classe B             | 1 M / 10 M por mês                       | Cobrança (!)                                    | idem                                                                         |
+| R2: egress                          | Gratuito                                 | n/a                                             | idem                                                                         |
+| Pages: builds                       | 500 / mês, 1 simultâneo                  | Build bloqueado                                 | [Pages limits](https://developers.cloudflare.com/pages/platform/limits)      |
+| Pages: arquivos / tamanho           | 20.000 / 25 MiB cada                     | Deploy falha                                    | idem                                                                         |
+| Pages: projetos / domínios          | 100 por conta / 100 por projeto          | n/a                                             | idem                                                                         |
+| Pages Functions                     | Contam na cota de requisições do Workers | Ver Workers                                     | idem                                                                         |
+| Turnstile: widgets                  | 20 por conta; 10 hostnames por widget    | n/a                                             | [Turnstile plans](https://developers.cloudflare.com/turnstile/plans)         |
+| Turnstile: verificações             | Ilimitadas; analytics 7 dias             | n/a                                             | idem                                                                         |
 
 ## 2. Itens NÃO confirmados (bloqueiam uso até confirmação)
 

@@ -1,0 +1,36 @@
+{
+  "name": "agenthub",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AI AgentHub - plataforma multi-tenant de agentes orientados a tarefas",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "setup:dev": "node scripts/setup-dev.mjs",
+    "dev:api": "npm run dev -w @agenthub/api",
+    "dev:web": "npm run dev -w @agenthub/web",
+    "db:generate": "npm run db:generate -w @agenthub/api",
+    "db:migrate:local": "npm run db:migrate:local -w @agenthub/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "npm run test:e2e -w @agenthub/web",
+    "build": "npm run build -w @agenthub/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}
