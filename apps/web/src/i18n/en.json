@@ -1,0 +1,94 @@
+{
+  "app": {
+    "name": "AI AgentHub",
+    "tagline": "Find, configure and run specialist agents for professional tasks — with control over what they can do."
+  },
+  "nav": {
+    "home": "Home",
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "dashboard": "Dashboard",
+    "signOut": "Sign out",
+    "menu": "Menu",
+    "skip": "Skip to content"
+  },
+  "landing": {
+    "title": "Agents that execute tasks — under your control",
+    "subtitle": "AI AgentHub is a platform to discover, install, configure, run and share task-oriented agents, with permissions, history, authorized tools and human approval.",
+    "cta": "Create a free account",
+    "ctaSecondary": "I already have an account",
+    "principles": "How it works",
+    "p1Title": "Permissions first",
+    "p1Body": "Every agent runs with an explicit whitelist of tools. Nothing outside it is possible.",
+    "p2Title": "Audit trail",
+    "p2Body": "Every execution, approval and change is recorded so you can see what happened and who decided.",
+    "p3Title": "Human approval",
+    "p3Body": "Sensitive or irreversible actions wait for an explicit confirmation from a person.",
+    "statusNote": "The agent marketplace is not available yet. This is an early foundation release."
+  },
+  "auth": {
+    "signUpTitle": "Create your account",
+    "signInTitle": "Sign in",
+    "name": "Name (optional)",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least 10 characters.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "submitSignUp": "Create account",
+    "submitSignIn": "Sign in",
+    "working": "Please wait…",
+    "haveAccount": "Already have an account?",
+    "noAccount": "New here?",
+    "antibot": "Verification",
+    "antibotDev": "Development mode: anti-bot verification is turned off on this machine.",
+    "antibotMissing": "Sign-up and sign-in are unavailable: anti-bot verification is not configured on this server.",
+    "signupClosed": "Sign-up is currently closed.",
+    "offlineBlocked": "You are offline. Signing in or creating an account needs a connection."
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "invalid_credentials": "Invalid email or password.",
+    "email_taken": "This email is already registered.",
+    "validation_error": "Please check the fields and try again.",
+    "rate_limited": "Too many attempts. Try again in a few minutes.",
+    "capacity_reached": "The service reached its daily capacity. Please try again tomorrow.",
+    "antibot_failed": "The anti-bot verification failed. Please try again.",
+    "antibot_unavailable": "Anti-bot verification is unavailable right now.",
+    "auth_unavailable": "Authentication is not configured on this server.",
+    "signup_closed": "Sign-up is currently closed.",
+    "csrf_origin_mismatch": "The request was blocked for security reasons.",
+    "csrf_origin_missing": "The request was blocked for security reasons.",
+    "network": "Could not reach the server. Check your connection."
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}",
+    "workspaces": "Your workspaces",
+    "role": { "owner": "Owner", "admin": "Admin", "member": "Member" },
+    "noWorkspaces": "You are not a member of any workspace.",
+    "emptyAgents": "No agents installed. The marketplace arrives in a later phase."
+  },
+  "status": {
+    "title": "Service status",
+    "subtitle": "What is actually available on this server right now.",
+    "turnstile": "Anti-bot",
+    "ai": "AI providers",
+    "push": "Push notifications",
+    "billing": "Billing",
+    "values": {
+      "enforced": "Active",
+      "disabled_dev": "Off (development only)",
+      "not_configured": "Not configured",
+      "unavailable": "Unavailable — in-app notifications only",
+      "off": "Off — no payments exist on this platform"
+    }
+  },
+  "offline": {
+    "title": "You are offline",
+    "body": "Showing what was already loaded. Signing in, running or changing anything needs a connection.",
+    "banner": "You are offline. Actions that change data are disabled."
+  },
+  "theme": { "label": "Theme", "system": "System", "light": "Light", "dark": "Dark" },
+  "lang": { "label": "Language", "en": "English", "pt": "Português", "es": "Español" },
+  "notFound": { "title": "Page not found", "back": "Back to home" }
+}

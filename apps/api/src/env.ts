@@ -18,6 +18,10 @@ export interface Bindings {
   SIGNUP_OPEN: string;
   GLOBAL_SIGNUPS_PER_DAY: string;
   GLOBAL_LOGINS_PER_DAY: string;
+  /** Opcionais: sobrescrevem os limites padrão de rate limit (usado em testes E2E locais). */
+  SIGNUP_PER_IP_PER_HOUR?: string;
+  LOGIN_PER_IP_PER_10MIN?: string;
+  LOGIN_PER_EMAIL_PER_10MIN?: string;
 }
 
 export interface AuthUser {

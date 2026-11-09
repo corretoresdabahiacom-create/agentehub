@@ -21,6 +21,10 @@ export default defineConfig({
             PASSWORD_PEPPER: random(),
             APP_ORIGINS: '',
             SIGNUP_OPEN: 'true',
+            // Fixados para o teste ser hermético (um .dev.vars local não pode afrouxar os limites).
+            SIGNUP_PER_IP_PER_HOUR: '5',
+            LOGIN_PER_IP_PER_10MIN: '20',
+            LOGIN_PER_EMAIL_PER_10MIN: '10',
           },
         },
       };

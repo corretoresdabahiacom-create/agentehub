@@ -1,0 +1,7 @@
+# Copie para .dev.vars (ou rode `npm run setup:dev`, que gera valores aleatórios).
+# Não cole chaves reais aqui: este arquivo é versionado. Em produção use `wrangler secret put`.
+ENVIRONMENT=development
+TURNSTILE_MODE=disabled_dev
+PASSWORD_PEPPER=
+TURNSTILE_SECRET_KEY=
+APP_ORIGINS=http://localhost:5173

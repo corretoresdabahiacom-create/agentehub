@@ -32,6 +32,12 @@ const slugId = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
 const SIGNUP_PER_IP = { limit: 5, windowSec: 3600 };
 const LOGIN_PER_IP = { limit: 20, windowSec: 600 };
 const LOGIN_PER_EMAIL = { limit: 10, windowSec: 600 };
+
+/** Permite sobrescrever o limite por variável; valor inválido volta ao padrão seguro. */
+function limitFrom(value: string | undefined, fallback: number): number {
+  const n = Number(value);
+  return Number.isInteger(n) && n > 0 ? n : fallback;
+}
 const DAY_SEC = 86400;
 
 function requirePepper(c: Context<AppEnv>): string {
@@ -107,7 +113,7 @@ authRoutes.post('/signup', async (c) => {
   await enforce(
     c,
     `signup:ip:${ipHash ?? 'unknown'}`,
-    SIGNUP_PER_IP.limit,
+    limitFrom(c.env.SIGNUP_PER_IP_PER_HOUR, SIGNUP_PER_IP.limit),
     SIGNUP_PER_IP.windowSec,
   );
   await enforce(
@@ -196,8 +202,18 @@ authRoutes.post('/login', async (c) => {
   const ipHash = ip ? await anonymize(c, 'ip', ip) : null;
   const emailKey = await anonymize(c, 'email', input.email);
 
-  await enforce(c, `login:ip:${ipHash ?? 'unknown'}`, LOGIN_PER_IP.limit, LOGIN_PER_IP.windowSec);
-  await enforce(c, `login:email:${emailKey}`, LOGIN_PER_EMAIL.limit, LOGIN_PER_EMAIL.windowSec);
+  await enforce(
+    c,
+    `login:ip:${ipHash ?? 'unknown'}`,
+    limitFrom(c.env.LOGIN_PER_IP_PER_10MIN, LOGIN_PER_IP.limit),
+    LOGIN_PER_IP.windowSec,
+  );
+  await enforce(
+    c,
+    `login:email:${emailKey}`,
+    limitFrom(c.env.LOGIN_PER_EMAIL_PER_10MIN, LOGIN_PER_EMAIL.limit),
+    LOGIN_PER_EMAIL.windowSec,
+  );
   await enforce(
     c,
     'global:login',

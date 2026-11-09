@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --port 8787",
+    "dev:e2e": "node ../../scripts/setup-dev.mjs && rm -rf .wrangler/e2e-state && wrangler d1 migrations apply agenthub --local --persist-to .wrangler/e2e-state && wrangler dev --port 8787 --persist-to .wrangler/e2e-state",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",

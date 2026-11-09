@@ -1,0 +1,42 @@
+@import 'tailwindcss';
+
+/* Tema configurável por variáveis. `data-theme` (light|dark) é definido por lib/theme.ts.
+   A marca (cor primária) virá do painel admin na Fase 6; hoje usa o valor padrão abaixo. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+}
+
+:root {
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --border: #e2e8f0;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --surface: #0b1120;
+  --surface-muted: #131c31;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: #243049;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--surface);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

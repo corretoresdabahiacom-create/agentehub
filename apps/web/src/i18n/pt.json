@@ -1,0 +1,94 @@
+{
+  "app": {
+    "name": "AI AgentHub",
+    "tagline": "Encontre, configure e execute agentes especializados para tarefas profissionais — com controle do que eles podem fazer."
+  },
+  "nav": {
+    "home": "Início",
+    "signIn": "Entrar",
+    "signUp": "Criar conta",
+    "dashboard": "Painel",
+    "signOut": "Sair",
+    "menu": "Menu",
+    "skip": "Ir para o conteúdo"
+  },
+  "landing": {
+    "title": "Agentes que executam tarefas — sob o seu controle",
+    "subtitle": "O AI AgentHub é uma plataforma para descobrir, instalar, configurar, executar e compartilhar agentes orientados a tarefas, com permissões, histórico, ferramentas autorizadas e aprovação humana.",
+    "cta": "Criar conta gratuita",
+    "ctaSecondary": "Já tenho conta",
+    "principles": "Como funciona",
+    "p1Title": "Permissões primeiro",
+    "p1Body": "Cada agente roda com uma lista explícita de ferramentas autorizadas. Nada fora dela é possível.",
+    "p2Title": "Trilha de auditoria",
+    "p2Body": "Toda execução, aprovação e alteração é registrada para você ver o que aconteceu e quem decidiu.",
+    "p3Title": "Aprovação humana",
+    "p3Body": "Ações sensíveis ou irreversíveis aguardam a confirmação explícita de uma pessoa.",
+    "statusNote": "O marketplace de agentes ainda não está disponível. Esta é uma versão inicial de fundação."
+  },
+  "auth": {
+    "signUpTitle": "Crie sua conta",
+    "signInTitle": "Entrar",
+    "name": "Nome (opcional)",
+    "email": "E-mail",
+    "password": "Senha",
+    "passwordHint": "Pelo menos 10 caracteres.",
+    "showPassword": "Mostrar senha",
+    "hidePassword": "Ocultar senha",
+    "submitSignUp": "Criar conta",
+    "submitSignIn": "Entrar",
+    "working": "Aguarde…",
+    "haveAccount": "Já tem conta?",
+    "noAccount": "Novo por aqui?",
+    "antibot": "Verificação",
+    "antibotDev": "Modo de desenvolvimento: a verificação anti-bot está desligada nesta máquina.",
+    "antibotMissing": "Cadastro e login indisponíveis: a verificação anti-bot não está configurada neste servidor.",
+    "signupClosed": "O cadastro está fechado no momento.",
+    "offlineBlocked": "Você está offline. Entrar ou criar conta exige conexão."
+  },
+  "errors": {
+    "generic": "Algo deu errado. Tente novamente.",
+    "invalid_credentials": "E-mail ou senha inválidos.",
+    "email_taken": "Este e-mail já está cadastrado.",
+    "validation_error": "Confira os campos e tente de novo.",
+    "rate_limited": "Muitas tentativas. Tente novamente em alguns minutos.",
+    "capacity_reached": "O serviço atingiu a capacidade diária. Tente novamente amanhã.",
+    "antibot_failed": "A verificação anti-bot falhou. Tente novamente.",
+    "antibot_unavailable": "A verificação anti-bot está indisponível agora.",
+    "auth_unavailable": "A autenticação não está configurada neste servidor.",
+    "signup_closed": "O cadastro está fechado no momento.",
+    "csrf_origin_mismatch": "A requisição foi bloqueada por segurança.",
+    "csrf_origin_missing": "A requisição foi bloqueada por segurança.",
+    "network": "Não foi possível falar com o servidor. Verifique sua conexão."
+  },
+  "dashboard": {
+    "welcome": "Olá, {{name}}",
+    "workspaces": "Seus workspaces",
+    "role": { "owner": "Proprietário", "admin": "Administrador", "member": "Membro" },
+    "noWorkspaces": "Você não é membro de nenhum workspace.",
+    "emptyAgents": "Nenhum agente instalado. O marketplace chega em uma fase seguinte."
+  },
+  "status": {
+    "title": "Estado dos serviços",
+    "subtitle": "O que realmente está disponível neste servidor agora.",
+    "turnstile": "Anti-bot",
+    "ai": "Provedores de IA",
+    "push": "Notificações push",
+    "billing": "Cobrança",
+    "values": {
+      "enforced": "Ativo",
+      "disabled_dev": "Desligado (somente desenvolvimento)",
+      "not_configured": "Não configurado",
+      "unavailable": "Indisponível — apenas notificações dentro do app",
+      "off": "Desligada — não existem pagamentos nesta plataforma"
+    }
+  },
+  "offline": {
+    "title": "Você está offline",
+    "body": "Mostrando o que já foi carregado. Entrar, executar ou alterar qualquer coisa exige conexão.",
+    "banner": "Você está offline. Ações que alteram dados estão desativadas."
+  },
+  "theme": { "label": "Tema", "system": "Sistema", "light": "Claro", "dark": "Escuro" },
+  "lang": { "label": "Idioma", "en": "English", "pt": "Português", "es": "Español" },
+  "notFound": { "title": "Página não encontrada", "back": "Voltar ao início" }
+}
