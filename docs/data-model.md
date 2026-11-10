@@ -19,3 +19,12 @@ Definido em `apps/api/src/db/schema.ts` (Drizzle) e aplicado por `apps/api/migra
 - **Auditoria:** `audit_logs` registra `auth.signup`, `auth.login`, `auth.login_failed`, `auth.logout`. Metadados com chaves de aspecto secreto (`password`, `token`, `secret`, `key`…) lançam erro. Bloqueios (rate limit/anti-bot) **não** são auditados: seria uma escrita sob ataque.
 - **Artefatos:** `execution_artifacts` guardará texto no D1 com teto de tamanho (R2 desabilitado; ver `free-tier-limits.md`).
 - **Cobrança:** `feature_flags.monetization_enabled = 0`; não há tabela de pagamento.
+
+## Marketplace (Fase 2)
+
+- **Migrações novas:** `0002_marketplace_indexes` (índice `agent_executions(installation_id, status, finished_at)` para a checagem de qualificação de avaliações) e `0003_seed_categories` (taxonomia de categorias: configuração, não demonstração).
+- **Catálogo nasce vazio:** nenhuma migração insere `agents`, `agent_versions`, `agent_reviews`, `agent_installations` ou `favorites` (teste automatizado garante). Agentes de demonstração só via `seed-demo` local, com `is_demo = 1`.
+- **Instalações:** única por (`agent_id`, `workspace_id`, `user_id`); `status` alterna `active`/`uninstalled`; `installed_version_id` registra a versão vigente na instalação.
+- **Avaliações:** única por (`agent_id`, `user_id`); `installation_id` aponta a instalação qualificante; `verified = 1` sempre nesta fase; `status = hidden` é reservado à moderação (Fase 6) e é preservado em edições do autor.
+- **Auditoria nova:** `agent.install`, `agent.uninstall`, `agent.review`, `agent.review_delete` (metadado só com a nota). Favoritar **não** é auditado (baixo valor, custo de escrita).
+- **Publicador técnico:** o seed local cria o usuário `demo-publisher` (`status = suspended`, hash inválido): não consegue autenticar. Ele existe só para satisfazer a chave estrangeira `agents.creator_user_id`.

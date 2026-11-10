@@ -2,7 +2,7 @@
 
 Plataforma multi-tenant (organização → workspace → membros) para descobrir, instalar, configurar, executar e compartilhar agentes orientados a tarefas, com permissões, histórico, ferramentas autorizadas e aprovação humana. Custo de operação: **R$ 0** (somente free tiers, sem cartão).
 
-> **Estado: Fase 1 concluída (fundação).** Existem cadastro, login, sessões, autorização por papéis, layout, i18n EN/PT, PWA instalável e testes. **Não existem** marketplace, execução de agentes, IA, push nem cobrança. A interface diz isso explicitamente (R4/R5).
+> **Estado: Fase 2 concluída (marketplace).** Existem cadastro, login, sessões, autorização por papéis, layout, i18n EN/PT, PWA instalável, catálogo com busca/filtros/ordenação, página do agente, instalar/favoritar e avaliações verificadas. **Não existem** execução de agentes, construtor, IA, push nem cobrança. O catálogo de produção nasce **vazio**: só aparece o que for publicado de verdade. A interface diz isso explicitamente (R4/R5).
 
 ## Estrutura
 
@@ -26,6 +26,7 @@ scripts/         setup-dev (gera .dev.vars local) e gerador de ícones
 npm ci                      # ou: npx -y npm@11 install
 npm run setup:dev           # cria apps/api/.dev.vars (aleatório, ignorado pelo git)
 npm run db:migrate:local    # aplica as migrações no D1 local
+npm run db:seed-demo:local -w @agenthub/api   # (opcional) 3 agentes de DEMONSTRAÇÃO, só local, marcados como demo
 npm run dev:api             # Worker em http://localhost:8787
 npm run dev:web             # app em http://localhost:5173 (proxy /api → :8787)
 ```
@@ -45,4 +46,4 @@ npm run test:e2e            # Playwright: stack real (Worker + build do web)
 - [Arquitetura](docs/architecture.md) · [Modelo de dados](docs/data-model.md) · [Segurança](docs/security.md)
 - [Limites do free tier](docs/free-tier-limits.md) · [Limitações conhecidas](docs/limitations.md)
 - [Variáveis de ambiente](docs/env-vars.md) · [Monetização](docs/monetization.md) · [Dependências](docs/dependencies.md)
-- [Decisões (ADR)](docs/adr/0001-rate-limit-e-senhas.md)
+- Decisões (ADR): [0001 rate limit e senhas](docs/adr/0001-rate-limit-e-senhas.md) · [0002 PBKDF2 e deploy](docs/adr/0002-pbkdf2-e-deploy.md)

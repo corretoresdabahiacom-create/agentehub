@@ -2,8 +2,10 @@ import { Route, Routes } from 'react-router';
 import { Layout } from './components/Layout';
 import { ProtectedRoute, PublicOnly } from './components/Guards';
 import { LoginPage, SignupPage } from './pages/Auth';
+import AgentPage from './pages/AgentPage';
 import Dashboard from './pages/Dashboard';
 import Landing from './pages/Landing';
+import Marketplace from './pages/Marketplace';
 import { NotFoundPage, OfflinePage } from './pages/Misc';
 
 export default function App() {
@@ -11,6 +13,8 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
+        <Route path="agents" element={<Marketplace />} />
+        <Route path="agents/:slug" element={<AgentPage />} />
         <Route element={<PublicOnly />}>
           <Route path="signup" element={<SignupPage />} />
           <Route path="login" element={<LoginPage />} />

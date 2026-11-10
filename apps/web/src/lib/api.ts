@@ -1,10 +1,22 @@
-import type { LoginInput, MeResponse, PublicConfigResponse, SignupInput } from '@agenthub/shared';
+import type {
+  AgentDetail,
+  CatalogQuery,
+  CatalogResponse,
+  CategoryWithCount,
+  LoginInput,
+  MeResponse,
+  PublicConfigResponse,
+  ReviewInput,
+  ReviewsResponse,
+  SignupInput,
+} from '@agenthub/shared';
 
 export class ApiError extends Error {
   constructor(
     public status: number,
     public code: string,
     message: string,
+    public details?: unknown,
   ) {
     super(message);
   }
@@ -27,10 +39,15 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   }
   if (res.status === 204) return undefined as T;
   const data = (await res.json().catch(() => null)) as {
-    error?: { code?: string; message?: string };
+    error?: { code?: string; message?: string; details?: unknown };
   } | null;
   if (!res.ok) {
-    throw new ApiError(res.status, data?.error?.code ?? 'generic', data?.error?.message ?? 'error');
+    throw new ApiError(
+      res.status,
+      data?.error?.code ?? 'generic',
+      data?.error?.message ?? 'error',
+      data?.error?.details,
+    );
   }
   return data as T;
 }
@@ -50,7 +67,46 @@ export const api = {
   login: (input: LoginInput) =>
     request<MeResponse>('/api/auth/login', { method: 'POST', body: JSON.stringify(input) }),
   logout: () => request<void>('/api/auth/logout', { method: 'POST' }),
+
+  // ---- marketplace
+  categories: () => request<{ categories: CategoryWithCount[] }>('/api/categories'),
+  catalog: (q: Partial<CatalogQuery>) => request<CatalogResponse>(`/api/agents${toQuery(q)}`),
+  agent: (slug: string) => request<AgentDetail>(`/api/agents/${encodeURIComponent(slug)}`),
+  reviews: (slug: string, page = 1) =>
+    request<ReviewsResponse>(`/api/agents/${encodeURIComponent(slug)}/reviews?page=${page}`),
+  install: (slug: string, workspaceId: string) =>
+    request<{ installed: true }>(`/api/agents/${encodeURIComponent(slug)}/install`, {
+      method: 'POST',
+      body: JSON.stringify({ workspaceId }),
+    }),
+  uninstall: (slug: string, workspaceId: string) =>
+    request<{ installed: false }>(
+      `/api/agents/${encodeURIComponent(slug)}/install/${encodeURIComponent(workspaceId)}`,
+      { method: 'DELETE' },
+    ),
+  favorite: (slug: string, on: boolean) =>
+    request<{ favorited: boolean }>(`/api/agents/${encodeURIComponent(slug)}/favorite`, {
+      method: on ? 'PUT' : 'DELETE',
+    }),
+  saveReview: (slug: string, input: ReviewInput) =>
+    request<unknown>(`/api/agents/${encodeURIComponent(slug)}/review`, {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    }),
+  deleteReview: (slug: string) =>
+    request<unknown>(`/api/agents/${encodeURIComponent(slug)}/review`, { method: 'DELETE' }),
 };
+
+/** Monta a query string omitindo valores vazios/padrão (a API rejeita string vazia em `category`). */
+export function toQuery(q: Record<string, unknown>): string {
+  const p = new URLSearchParams();
+  for (const [k, v] of Object.entries(q)) {
+    if (v === undefined || v === null || v === '') continue;
+    p.set(k, String(v));
+  }
+  const s = p.toString();
+  return s ? `?${s}` : '';
+}
 
 /** Chave i18n para um erro de API (cai em errors.generic quando o código é desconhecido). */
 export function errorKey(err: unknown, known: readonly string[]): string {

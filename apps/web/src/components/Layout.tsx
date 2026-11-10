@@ -36,6 +36,9 @@ export function Layout() {
 
   const nav = user ? (
     <>
+      <NavLink to="/agents" className={link} onClick={() => setOpen(false)}>
+        {t('nav.marketplace')}
+      </NavLink>
       <NavLink to="/app" className={link} onClick={() => setOpen(false)}>
         {t('nav.dashboard')}
       </NavLink>
@@ -62,6 +65,9 @@ export function Layout() {
     </>
   ) : (
     <>
+      <NavLink to="/agents" className={link} onClick={() => setOpen(false)}>
+        {t('nav.marketplace')}
+      </NavLink>
       <NavLink to="/login" className={link} onClick={() => setOpen(false)}>
         {t('nav.signIn')}
       </NavLink>

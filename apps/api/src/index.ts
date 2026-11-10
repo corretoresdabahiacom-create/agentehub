@@ -4,6 +4,7 @@ import { errorBody, HttpError } from './lib/http';
 import { csrfProtection } from './middleware/csrf';
 import { securityHeaders } from './middleware/security';
 import { sessionMiddleware } from './middleware/session';
+import { agentsRoutes, categoriesRoutes } from './routes/agents';
 import { authRoutes } from './routes/auth';
 import { config } from './routes/config';
 import { health } from './routes/health';
@@ -20,6 +21,8 @@ api.route('/health', health);
 api.route('/config', config);
 api.route('/auth', authRoutes);
 api.route('/workspaces', workspacesRoutes);
+api.route('/agents', agentsRoutes);
+api.route('/categories', categoriesRoutes);
 // R7: NÃO existe nenhuma rota de cobrança/checkout/assinatura. Qualquer caminho desse tipo cai
 // no 404 abaixo. (test/billing.test.ts garante isso.)
 

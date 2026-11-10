@@ -1,0 +1,1 @@
+CREATE INDEX `agent_executions_installation_idx` ON `agent_executions` (`installation_id`,`status`,`finished_at`);

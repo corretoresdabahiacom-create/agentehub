@@ -10,7 +10,8 @@
     "dashboard": "Painel",
     "signOut": "Sair",
     "menu": "Menu",
-    "skip": "Ir para o conteúdo"
+    "skip": "Ir para o conteúdo",
+    "marketplace": "Marketplace"
   },
   "landing": {
     "title": "Agentes que executam tarefas — sob o seu controle",
@@ -24,7 +25,8 @@
     "p2Body": "Toda execução, aprovação e alteração é registrada para você ver o que aconteceu e quem decidiu.",
     "p3Title": "Aprovação humana",
     "p3Body": "Ações sensíveis ou irreversíveis aguardam a confirmação explícita de uma pessoa.",
-    "statusNote": "O marketplace de agentes ainda não está disponível. Esta é uma versão inicial de fundação."
+    "statusNote": "O marketplace de agentes ainda não está disponível. Esta é uma versão inicial de fundação.",
+    "browse": "Explorar o marketplace"
   },
   "auth": {
     "signUpTitle": "Crie sua conta",
@@ -59,14 +61,23 @@
     "signup_closed": "O cadastro está fechado no momento.",
     "csrf_origin_mismatch": "A requisição foi bloqueada por segurança.",
     "csrf_origin_missing": "A requisição foi bloqueada por segurança.",
-    "network": "Não foi possível falar com o servidor. Verifique sua conexão."
+    "network": "Não foi possível falar com o servidor. Verifique sua conexão.",
+    "unauthenticated": "Sua sessão expirou. Entre novamente.",
+    "not_found": "Esse item não foi encontrado.",
+    "review_not_qualified": "Só usuários verificados podem avaliar este agente."
   },
   "dashboard": {
     "welcome": "Olá, {{name}}",
     "workspaces": "Seus workspaces",
-    "role": { "owner": "Proprietário", "admin": "Administrador", "member": "Membro" },
+    "role": {
+      "owner": "Proprietário",
+      "admin": "Administrador",
+      "member": "Membro"
+    },
     "noWorkspaces": "Você não é membro de nenhum workspace.",
-    "emptyAgents": "Nenhum agente instalado. O marketplace chega em uma fase seguinte."
+    "emptyAgents": "Nenhum agente instalado. O marketplace chega em uma fase seguinte.",
+    "favorites": "Meus favoritos",
+    "installed": "Agentes instalados"
   },
   "status": {
     "title": "Estado dos serviços",
@@ -88,7 +99,89 @@
     "body": "Mostrando o que já foi carregado. Entrar, executar ou alterar qualquer coisa exige conexão.",
     "banner": "Você está offline. Ações que alteram dados estão desativadas."
   },
-  "theme": { "label": "Tema", "system": "Sistema", "light": "Claro", "dark": "Escuro" },
-  "lang": { "label": "Idioma", "en": "English", "pt": "Português", "es": "Español" },
-  "notFound": { "title": "Página não encontrada", "back": "Voltar ao início" }
+  "theme": {
+    "label": "Tema",
+    "system": "Sistema",
+    "light": "Claro",
+    "dark": "Escuro"
+  },
+  "lang": {
+    "label": "Idioma",
+    "en": "English",
+    "pt": "Português",
+    "es": "Español"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "back": "Voltar ao início"
+  },
+  "market": {
+    "title": "Marketplace",
+    "subtitle": "Navegue pelos agentes publicados. Tudo o que aparece aqui vem do banco de dados da plataforma.",
+    "search": "Buscar agentes",
+    "searchPlaceholder": "Buscar por nome ou descrição…",
+    "sortBy": "Ordenar por",
+    "sort": {
+      "newest": "Mais recentes",
+      "name": "Nome (A–Z)",
+      "rating": "Mais bem avaliados",
+      "popular": "Mais instalados"
+    },
+    "scopeLabel": "Mostrar",
+    "scope": {
+      "all": "Todos os agentes",
+      "favorites": "Meus favoritos",
+      "installed": "Instalados por mim"
+    },
+    "categories": "Categorias",
+    "allCategories": "Todas as categorias",
+    "results_one": "{{count}} agente encontrado",
+    "results_other": "{{count}} agentes encontrados",
+    "emptyCatalog": "Nenhum agente foi publicado ainda.",
+    "emptyCatalogHint": "O catálogo mostra apenas agentes reais. Novos agentes aparecerão aqui quando criadores os publicarem.",
+    "emptyFiltered": "Nenhum agente corresponde a estes filtros.",
+    "clearFilters": "Limpar filtros",
+    "pagination": "Paginação",
+    "prev": "Anterior",
+    "next": "Próxima",
+    "pageOf": "Página {{page}} de {{pages}}",
+    "demo": "Demo",
+    "demoBanner": "Esta é uma listagem de demonstração. Ela mostra como um agente é apresentado no marketplace e não pode ser executada.",
+    "favorited": "Nos seus favoritos",
+    "favorite": "Adicionar aos favoritos",
+    "unfavorite": "Remover dos favoritos",
+    "installs_one": "{{count}} instalação",
+    "installs_other": "{{count}} instalações",
+    "noReviews": "Sem avaliações ainda",
+    "ratingLabel": "Nota {{avg}} de 5 em {{count}} avaliações",
+    "starsOf": "{{n}} de 5 estrelas",
+    "install": "Instalar",
+    "installAction": "Instalar agente",
+    "uninstall": "Desinstalar",
+    "workspace": "Workspace",
+    "installedNote": "Instalado neste workspace.",
+    "signInToInstall": "para instalar ou favoritar este agente.",
+    "executionSoon": "A execução de agentes ainda não está disponível. Instalar salva o agente no seu workspace para quando estiver.",
+    "backToMarket": "Voltar ao marketplace",
+    "notFound": "Agente não encontrado",
+    "objective": "Objetivo",
+    "outputFormat": "Formato de saída",
+    "version": "Versão",
+    "tools": "Ferramentas autorizadas",
+    "noTools": "Nenhuma declarada",
+    "reviews": "Avaliações",
+    "signInToReview": "para avaliar este agente.",
+    "yourRating": "Sua nota",
+    "yourComment": "Comentário (opcional)",
+    "submitReview": "Publicar avaliação",
+    "updateReview": "Atualizar avaliação",
+    "deleteReview": "Excluir minha avaliação",
+    "verified": "Verificada",
+    "verifiedHint": "O autor tinha este agente instalado e uma execução concluída nos últimos {{days}} dias.",
+    "yours": "Sua avaliação",
+    "ineligible": {
+      "not_installed": "Só quem instalou este agente e concluiu uma execução pode avaliá-lo. Instale-o primeiro.",
+      "no_recent_completed_execution": "Você poderá avaliar quando tiver uma execução concluída deste agente nos últimos {{days}} dias."
+    }
+  }
 }

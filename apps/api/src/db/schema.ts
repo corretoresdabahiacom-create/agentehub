@@ -460,6 +460,8 @@ export const agentExecutions = sqliteTable(
     index('agent_executions_user_idx').on(t.userId, t.createdAt),
     index('agent_executions_agent_idx').on(t.agentId),
     index('agent_executions_status_idx').on(t.status),
+    // Consulta de qualificação para avaliar (instalação + execução concluída recente).
+    index('agent_executions_installation_idx').on(t.installationId, t.status, t.finishedAt),
     check('agent_executions_status_ck', oneOf('status', EXECUTION_STATUS)),
     check('agent_executions_requires_ai_ck', sql`${t.requiresAi} IN (0, 1)`),
   ],

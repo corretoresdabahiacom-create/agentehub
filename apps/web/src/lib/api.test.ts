@@ -55,3 +55,41 @@ describe('api client', () => {
     expect(errorKey(new Error('x'), ['rate_limited'])).toBe('errors.generic');
   });
 });
+
+describe('marketplace api client', () => {
+  it('toQuery omite valores vazios e codifica o texto', async () => {
+    const { toQuery } = await import('./api');
+    expect(toQuery({ q: '', category: undefined, sort: 'name', page: 2 })).toBe(
+      '?sort=name&page=2',
+    );
+    expect(toQuery({})).toBe('');
+    expect(toQuery({ q: 'a&b=c d' })).toBe('?q=a%26b%3Dc+d');
+  });
+
+  it('catalog chama /api/agents com a query; install/favorite usam o método correto', async () => {
+    const fn = mockFetch(200, { agents: [], total: 0, page: 1, pageSize: 12 });
+    await api.catalog({ q: 'x', sort: 'rating' });
+    expect((fn.mock.calls[0] as unknown as [string])[0]).toBe('/api/agents?q=x&sort=rating');
+
+    const f2 = mockFetch(200, { favorited: true });
+    await api.favorite('my-agent', true);
+    await api.favorite('my-agent', false);
+    expect((f2.mock.calls[0] as unknown as [string, RequestInit])[1].method).toBe('PUT');
+    expect((f2.mock.calls[1] as unknown as [string, RequestInit])[1].method).toBe('DELETE');
+
+    const f3 = mockFetch(200, { installed: false });
+    await api.uninstall('my agent', 'ws/1');
+    expect((f3.mock.calls[0] as unknown as [string])[0]).toBe(
+      '/api/agents/my%20agent/install/ws%2F1',
+    );
+  });
+
+  it('ApiError carrega details (motivo de review_not_qualified)', async () => {
+    mockFetch(403, {
+      error: { code: 'review_not_qualified', message: 'x', details: { reason: 'not_installed' } },
+    });
+    const err = await api.saveReview('a', { rating: 5 }).catch((e: unknown) => e);
+    expect((err as ApiError).code).toBe('review_not_qualified');
+    expect((err as ApiError).details).toEqual({ reason: 'not_installed' });
+  });
+});

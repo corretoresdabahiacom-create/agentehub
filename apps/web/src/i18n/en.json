@@ -10,7 +10,8 @@
     "dashboard": "Dashboard",
     "signOut": "Sign out",
     "menu": "Menu",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "marketplace": "Marketplace"
   },
   "landing": {
     "title": "Agents that execute tasks — under your control",
@@ -24,7 +25,8 @@
     "p2Body": "Every execution, approval and change is recorded so you can see what happened and who decided.",
     "p3Title": "Human approval",
     "p3Body": "Sensitive or irreversible actions wait for an explicit confirmation from a person.",
-    "statusNote": "The agent marketplace is not available yet. This is an early foundation release."
+    "statusNote": "The agent marketplace is not available yet. This is an early foundation release.",
+    "browse": "Browse the marketplace"
   },
   "auth": {
     "signUpTitle": "Create your account",
@@ -59,14 +61,23 @@
     "signup_closed": "Sign-up is currently closed.",
     "csrf_origin_mismatch": "The request was blocked for security reasons.",
     "csrf_origin_missing": "The request was blocked for security reasons.",
-    "network": "Could not reach the server. Check your connection."
+    "network": "Could not reach the server. Check your connection.",
+    "unauthenticated": "Your session has expired. Please sign in again.",
+    "not_found": "That item was not found.",
+    "review_not_qualified": "Only verified users can review this agent."
   },
   "dashboard": {
     "welcome": "Welcome, {{name}}",
     "workspaces": "Your workspaces",
-    "role": { "owner": "Owner", "admin": "Admin", "member": "Member" },
+    "role": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member"
+    },
     "noWorkspaces": "You are not a member of any workspace.",
-    "emptyAgents": "No agents installed. The marketplace arrives in a later phase."
+    "emptyAgents": "No agents installed. The marketplace arrives in a later phase.",
+    "favorites": "My favorites",
+    "installed": "Installed agents"
   },
   "status": {
     "title": "Service status",
@@ -88,7 +99,89 @@
     "body": "Showing what was already loaded. Signing in, running or changing anything needs a connection.",
     "banner": "You are offline. Actions that change data are disabled."
   },
-  "theme": { "label": "Theme", "system": "System", "light": "Light", "dark": "Dark" },
-  "lang": { "label": "Language", "en": "English", "pt": "Português", "es": "Español" },
-  "notFound": { "title": "Page not found", "back": "Back to home" }
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "lang": {
+    "label": "Language",
+    "en": "English",
+    "pt": "Português",
+    "es": "Español"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  },
+  "market": {
+    "title": "Marketplace",
+    "subtitle": "Browse published agents. Everything listed here comes from the platform database.",
+    "search": "Search agents",
+    "searchPlaceholder": "Search by name or description…",
+    "sortBy": "Sort by",
+    "sort": {
+      "newest": "Newest",
+      "name": "Name (A–Z)",
+      "rating": "Top rated",
+      "popular": "Most installed"
+    },
+    "scopeLabel": "Show",
+    "scope": {
+      "all": "All agents",
+      "favorites": "My favorites",
+      "installed": "Installed by me"
+    },
+    "categories": "Categories",
+    "allCategories": "All categories",
+    "results_one": "{{count}} agent found",
+    "results_other": "{{count}} agents found",
+    "emptyCatalog": "No agents have been published yet.",
+    "emptyCatalogHint": "The catalog only shows real agents. New ones will appear here when creators publish them.",
+    "emptyFiltered": "No agents match these filters.",
+    "clearFilters": "Clear filters",
+    "pagination": "Pagination",
+    "prev": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{page}} of {{pages}}",
+    "demo": "Demo",
+    "demoBanner": "This is a demonstration listing. It shows how an agent is presented in the marketplace and cannot be run.",
+    "favorited": "In your favorites",
+    "favorite": "Add to favorites",
+    "unfavorite": "Remove from favorites",
+    "installs_one": "{{count}} install",
+    "installs_other": "{{count}} installs",
+    "noReviews": "No reviews yet",
+    "ratingLabel": "Rated {{avg}} out of 5 from {{count}} reviews",
+    "starsOf": "{{n}} out of 5 stars",
+    "install": "Install",
+    "installAction": "Install agent",
+    "uninstall": "Uninstall",
+    "workspace": "Workspace",
+    "installedNote": "Installed in this workspace.",
+    "signInToInstall": "to install or favorite this agent.",
+    "executionSoon": "Running agents is not available yet. Installing saves the agent to your workspace for when it is.",
+    "backToMarket": "Back to the marketplace",
+    "notFound": "Agent not found",
+    "objective": "Objective",
+    "outputFormat": "Output format",
+    "version": "Version",
+    "tools": "Authorized tools",
+    "noTools": "None declared",
+    "reviews": "Reviews",
+    "signInToReview": "to review this agent.",
+    "yourRating": "Your rating",
+    "yourComment": "Comment (optional)",
+    "submitReview": "Publish review",
+    "updateReview": "Update review",
+    "deleteReview": "Delete my review",
+    "verified": "Verified",
+    "verifiedHint": "The author had this agent installed and a completed run in the last {{days}} days.",
+    "yours": "Your review",
+    "ineligible": {
+      "not_installed": "Only people who installed this agent and completed a run can review it. Install it first.",
+      "no_recent_completed_execution": "You can review once you have a completed run of this agent in the last {{days}} days."
+    }
+  }
 }

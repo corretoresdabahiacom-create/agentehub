@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 import { ServiceStatus } from '../components/ServiceStatus';
 import { useMe } from '../lib/queries';
 
@@ -31,6 +32,14 @@ export default function Dashboard() {
           </ul>
         )}
         <p className="mt-3 text-sm text-[var(--text-muted)]">{t('dashboard.emptyAgents')}</p>
+        <p className="mt-2 flex gap-4 text-sm">
+          <Link className="text-brand-600 underline" to="/agents?scope=favorites">
+            {t('dashboard.favorites')}
+          </Link>
+          <Link className="text-brand-600 underline" to="/agents?scope=installed">
+            {t('dashboard.installed')}
+          </Link>
+        </p>
       </section>
       <ServiceStatus />
     </div>

@@ -2,10 +2,18 @@ import { auditLogs } from '../db/schema';
 import type { Db } from '../db/client';
 
 /**
- * Ações auditadas (Fase 1). Bloqueios por rate limit/anti-bot NÃO são auditados de propósito:
+ * Ações auditadas (Fases 1-2). Bloqueios por rate limit/anti-bot NÃO são auditados de propósito:
  * cada um seria uma escrita sob ataque (orçamento de 100.000 escritas/dia do D1 free).
  */
-export type AuditAction = 'auth.signup' | 'auth.login' | 'auth.login_failed' | 'auth.logout';
+export type AuditAction =
+  | 'auth.signup'
+  | 'auth.login'
+  | 'auth.login_failed'
+  | 'auth.logout'
+  | 'agent.install'
+  | 'agent.uninstall'
+  | 'agent.review'
+  | 'agent.review_delete';
 
 const FORBIDDEN_KEYS = /pass(word)?|secret|token|authorization|cookie|pepper|hash/i;
 

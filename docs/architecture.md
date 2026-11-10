@@ -18,7 +18,7 @@ Navegador ──(mesma origem)──▶ Frontend estático (Vite build, PWA)
 
 O cookie de sessão é `SameSite=Lax` e `__Host-`, e a API **não** define CORS. Por isso o navegador só fala com a origem do frontend e `/api` é encaminhado ao Worker (proxy do Vite em dev/E2E).
 
-**Decisão em aberto para o deploy:** manter same-origin em produção exige servir frontend e API sob o mesmo host (Worker com static assets, ou domínio próprio com rota `/api/*` para o Worker). Sem domínio próprio, `*.pages.dev` + `*.workers.dev` seriam origens distintas e o cookie não funcionaria. Isso será decidido na etapa de deploy, com aprovação.
+**Decisão (ADR 0002):** em produção, um único Worker serve a API e os arquivos estáticos (Workers Static Assets), preservando a mesma origem; um domínio próprio pode ser associado depois sem mudar código. `*.pages.dev` + `*.workers.dev` seriam origens distintas e o cookie não funcionaria, por isso Pages não é usado.
 
 ## Autenticação e sessões
 
@@ -38,3 +38,14 @@ Contadores de janela fixa na tabela `rate_limit_counters` (D1) com um único ups
 ## PWA
 
 Manifest + service worker (vite-plugin-pwa/Workbox): faz cache apenas do shell e de assets versionados; `/api/*` é **sempre rede** (`NetworkOnly`, sem fallback de cache), então nada autenticado fica em cache. Página `offline.html` para navegação sem rede. O banner offline desativa ações que alteram dados.
+
+## Marketplace (Fase 2)
+
+- **Rotas** (`apps/api/src/routes/agents.ts`): `GET /api/agents` (catálogo), `GET /api/agents/:slug`, `GET /api/agents/:slug/reviews`, `GET /api/categories` são **públicas** (sessão opcional enriquece com `favorited`/`installedWorkspaceIds`). `POST/DELETE …/install`, `PUT/DELETE …/favorite`, `PUT/DELETE …/review` exigem sessão e passam pelo CSRF de Origin.
+- **Visibilidade:** só entram `visibility = public`, `status = published` e `current_version_id` não nulo. Rascunho, suspenso, arquivado, privado e de workspace respondem 404. Agentes privados/de workspace são tratados nas Fases 3-4.
+- **Catálogo:** busca `LIKE` em nome e descrição (com `ESCAPE`, `%` e `_` são texto), filtro por categoria, ordenação (`newest | name | rating | popular`), escopo (`all | favorites | installed`, os dois últimos exigem sessão) e paginação (máx. 24 por página). Média, contagem de avaliações e instalações são calculadas no banco a cada consulta (sem contadores desnormalizados que possam divergir).
+- **Instalar:** `agent_installations` por (agente, workspace, usuário), idempotente. Só em workspace do qual o usuário é membro (senão 404). Desinstalar marca `uninstalled` (preserva histórico) e só afeta a instalação do próprio usuário.
+- **Avaliar:** exige instalação **e** execução `completed` do próprio usuário, na própria instalação, com `finished_at` nos últimos 90 dias. A resposta 403 traz o motivo (`not_installed` ou `no_recent_completed_execution`). Uma avaliação por usuário e agente (editar atualiza a mesma). Toda avaliação criada é `verified = 1`; a UI mostra o selo “Verificada”. Avaliações `hidden` (moderação, Fase 6) não contam e continuam ocultas depois de o autor editar.
+- **Privacidade das avaliações:** a API nunca devolve autor (nem nome, nem e-mail), só `mine`. O nome de exibição padrão deriva do e-mail, então expô-lo vazaria parte dele.
+- **Demonstração (R5):** `agents.is_demo = 1` faz a UI mostrar o selo **DEMO** e o aviso de que não pode ser executado. As migrações **não** criam agentes; `npm run db:seed-demo:local -w @agenthub/api` cria 3 agentes de demonstração apenas no D1 **local** (o script recusa `--remote`). Sem avaliações, instalações ou números fabricados.
+- **Estado na URL:** busca, filtros, ordenação e página vivem na query string do frontend (compartilhável; voltar funciona).

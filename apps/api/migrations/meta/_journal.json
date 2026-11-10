@@ -15,6 +15,20 @@
       "when": 1794243147354,
       "tag": "0001_seed_defaults",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1794298631458,
+      "tag": "0002_marketplace_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1794298631982,
+      "tag": "0003_seed_categories",
+      "breakpoints": true
     }
   ]
 }
