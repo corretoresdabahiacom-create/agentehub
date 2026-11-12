@@ -686,16 +686,41 @@ describe('avaliações qualificadas', () => {
 });
 
 describe('invariantes do marketplace', () => {
-  it('o catálogo nasce vazio: nenhuma migração cria agentes, avaliações ou instalações (R5)', async () => {
-    const files = import.meta.glob('../migrations/*.sql', {
-      query: '?raw',
-      import: 'default',
-      eager: true,
-    }) as Record<string, string>;
+  const OFFICIAL = ['research-assistant', 'document-summarizer', 'social-media-planner'];
+  const files = import.meta.glob('../migrations/*.sql', {
+    query: '?raw',
+    import: 'default',
+    eager: true,
+  }) as Record<string, string>;
+
+  it('nenhuma migração cria avaliações, instalações, favoritos, execuções ou aprovações (R5)', () => {
     for (const [name, sql] of Object.entries(files)) {
       expect(sql, name).not.toMatch(
-        /INSERT\s+(OR\s+\w+\s+)?INTO\s+`?(agents|agent_reviews|agent_installations|agent_versions|favorites)`?\b/i,
+        /INSERT\s+(OR\s+\w+\s+)?INTO\s+`?(agent_reviews|agent_installations|favorites|agent_executions|execution_steps|execution_approvals|execution_artifacts|usage_records)`?\b/i,
       );
     }
+  });
+
+  it('só a migração dos agentes oficiais cria agentes, e apenas os 3 oficiais (não demo)', () => {
+    for (const [name, sql] of Object.entries(files)) {
+      const inserts = /INSERT\s+(OR\s+\w+\s+)?INTO\s+`?(agents|agent_versions)`?\b/i.test(sql);
+      if (!name.includes('0005_seed_official_agents')) {
+        expect(inserts, name).toBe(false);
+        continue;
+      }
+      const agentRows = sql.match(/INTO agents \([^)]*\) VALUES \(([^;]*)\);/g) ?? [];
+      expect(agentRows).toHaveLength(OFFICIAL.length);
+      for (const slug of OFFICIAL) expect(sql).toContain(`'${slug}'`);
+      for (const row of agentRows) expect(row.trimEnd()).toMatch(/'published', '[^']+', 0\);$/);
+    }
+  });
+
+  it('o banco migrado contém os 3 agentes oficiais, marcados como não demo', async () => {
+    const { results } = await db()
+      .prepare(`SELECT slug, is_demo FROM agents WHERE slug IN (?, ?, ?) ORDER BY slug`)
+      .bind(...OFFICIAL)
+      .all<{ slug: string; is_demo: number }>();
+    expect(results.map((r) => r.slug)).toEqual([...OFFICIAL].sort());
+    expect(results.every((r) => r.is_demo === 0)).toBe(true);
   });
 });

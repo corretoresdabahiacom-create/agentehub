@@ -1,4 +1,12 @@
-import type { CatalogQuery, ReviewInput } from '@agenthub/shared';
+import type {
+  AgentBody,
+  CatalogQuery,
+  CreateExecutionInput,
+  ExecutionInput,
+  ExecutionStatusName,
+  PublishInput,
+  ReviewInput,
+} from '@agenthub/shared';
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { api } from './api';
 
@@ -74,3 +82,73 @@ export const useFavorite = (slug: string) =>
 export const useSaveReview = (slug: string) =>
   useAgentMutation((input: ReviewInput) => api.saveReview(slug, input));
 export const useDeleteReview = (slug: string) => useAgentMutation(() => api.deleteReview(slug));
+
+// -------------------------------------------------------- construtor e execuções
+
+export const useTools = () =>
+  useQuery({ queryKey: ['builder', 'tools'], queryFn: api.tools, staleTime: 5 * 60_000 });
+export const useMyAgents = () => useQuery({ queryKey: ['builder', 'list'], queryFn: api.myAgents });
+export const useMyAgent = (id: string | undefined) =>
+  useQuery({
+    queryKey: ['builder', 'detail', id],
+    queryFn: () => api.myAgent(id ?? ''),
+    enabled: Boolean(id),
+    retry: false,
+  });
+
+function useBuilderMutation<V, R>(fn: (v: V) => Promise<R>) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: fn,
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ['builder'] });
+      void qc.invalidateQueries({ queryKey: ['agents'] });
+    },
+  });
+}
+export const useCreateAgent = () => useBuilderMutation((b: AgentBody) => api.createAgent(b));
+export const useUpdateAgent = (id: string) =>
+  useBuilderMutation((b: Omit<AgentBody, 'workspaceId'>) => api.updateAgent(id, b));
+export const useValidateAgent = (id: string) =>
+  useMutation({ mutationFn: () => api.validateAgent(id) });
+export const useTestAgent = (id: string) =>
+  useMutation({ mutationFn: (input: ExecutionInput) => api.testAgent(id, input) });
+export const usePublishAgent = (id: string) =>
+  useBuilderMutation((b: PublishInput) => api.publishAgent(id, b));
+export const useArchiveAgent = (id: string) => useBuilderMutation(() => api.archiveAgent(id));
+
+/** Chaves de execução começam com 'runs' (invalidação em bloco). */
+export const useExecutions = (status?: ExecutionStatusName, page = 1) =>
+  useQuery({
+    queryKey: ['runs', 'list', status ?? 'all', page],
+    queryFn: () => api.executions({ status, page }),
+  });
+export const useApprovals = () =>
+  useQuery({ queryKey: ['runs', 'approvals'], queryFn: api.approvals });
+export const useExecution = (id: string) =>
+  useQuery({
+    queryKey: ['runs', 'detail', id],
+    queryFn: () => api.execution(id),
+    retry: false,
+  });
+
+function useRunMutation<V>(fn: (v: V) => Promise<unknown>) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: fn,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['runs'] }),
+  });
+}
+export const useRunAgent = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (b: CreateExecutionInput) => api.runAgent(b),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['runs'] }),
+  });
+};
+export const useDecide = (id: string) =>
+  useRunMutation((v: { action: 'approve' | 'reject'; body: Record<string, unknown> }) =>
+    api.decide(id, v.action, v.body),
+  );
+export const useCancelExecution = (id: string) => useRunMutation(() => api.cancelExecution(id));
+export const useRetryExecution = (id: string) => useRunMutation(() => api.retryExecution(id));

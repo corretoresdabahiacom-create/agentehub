@@ -11,7 +11,9 @@
     "signOut": "Sair",
     "menu": "Menu",
     "skip": "Ir para o conteúdo",
-    "marketplace": "Marketplace"
+    "marketplace": "Marketplace",
+    "builder": "Construtor",
+    "runs": "Execuções"
   },
   "landing": {
     "title": "Agentes que executam tarefas — sob o seu controle",
@@ -64,7 +66,29 @@
     "network": "Não foi possível falar com o servidor. Verifique sua conexão.",
     "unauthenticated": "Sua sessão expirou. Entre novamente.",
     "not_found": "Esse item não foi encontrado.",
-    "review_not_qualified": "Só usuários verificados podem avaliar este agente."
+    "review_not_qualified": "Só usuários verificados podem avaliar este agente.",
+    "forbidden": "Você não tem permissão para isso.",
+    "quota_exceeded": "O limite diário de execuções foi atingido. Tente novamente amanhã.",
+    "validation_failed": "O agente tem problemas que precisam ser corrigidos antes. Veja a lista abaixo.",
+    "not_installed": "Instale este agente no workspace selecionado primeiro.",
+    "ai_not_configured": "Este agente precisa de um provedor de IA e nenhum está configurado neste servidor.",
+    "limit_input": "A entrada é maior do que este agente permite.",
+    "missing_input": "Um campo obrigatório está vazio.",
+    "confirmation_required": "É necessária uma confirmação explícita.",
+    "approval_expired": "O pedido de aprovação expirou e a execução foi cancelada.",
+    "not_awaiting_approval": "Esta execução não está aguardando aprovação.",
+    "invalid_state": "Essa ação não é possível no estado atual da execução.",
+    "conflict": "Outra pessoa já alterou isto. Recarregue e tente de novo.",
+    "attempts_exhausted": "Não há mais tentativas para esta execução.",
+    "agent_unavailable": "Este agente não está mais disponível.",
+    "agent_misconfigured": "Este agente está mal configurado e não pode executar.",
+    "agent_suspended": "Este agente está suspenso.",
+    "agent_limit": "Você atingiu o número máximo de agentes.",
+    "visibility_unavailable": "O compartilhamento com um workspace chega na fase de Empresas.",
+    "visibility_locked": "Um agente público não volta a ser privado. Arquive-o.",
+    "nothing_to_publish": "Não há versão não publicada para publicar.",
+    "tool_duplicated": "Uma ferramenta foi selecionada duas vezes.",
+    "tool_config_too_large": "A configuração de uma ferramenta é grande demais."
   },
   "dashboard": {
     "welcome": "Olá, {{name}}",
@@ -91,7 +115,8 @@
       "disabled_dev": "Desligado (somente desenvolvimento)",
       "not_configured": "Não configurado",
       "unavailable": "Indisponível — apenas notificações dentro do app",
-      "off": "Desligada — não existem pagamentos nesta plataforma"
+      "off": "Desligada — não existem pagamentos nesta plataforma",
+      "configured": "Configurado"
     }
   },
   "offline": {
@@ -161,7 +186,6 @@
     "workspace": "Workspace",
     "installedNote": "Instalado neste workspace.",
     "signInToInstall": "para instalar ou favoritar este agente.",
-    "executionSoon": "A execução de agentes ainda não está disponível. Instalar salva o agente no seu workspace para quando estiver.",
     "backToMarket": "Voltar ao marketplace",
     "notFound": "Agente não encontrado",
     "objective": "Objetivo",
@@ -183,5 +207,194 @@
       "not_installed": "Só quem instalou este agente e concluiu uma execução pode avaliá-lo. Instale-o primeiro.",
       "no_recent_completed_execution": "Você poderá avaliar quando tiver uma execução concluída deste agente nos últimos {{days}} dias."
     }
+  },
+  "run": {
+    "title": "Executar este agente",
+    "text": "Texto",
+    "topic": "Tema",
+    "tone": "Tom",
+    "count": "Número de posts",
+    "chars": "{{count}} / {{max}} caracteres",
+    "action": "Executar agente",
+    "tones": {
+      "neutral": "Neutro",
+      "friendly": "Amigável",
+      "formal": "Formal"
+    },
+    "approvalNote": "O resultado só é liberado depois que uma pessoa confirmar.",
+    "aiOff": "Este agente precisa de IA, e nenhum provedor de IA está configurado neste servidor, então ele não pode executar.",
+    "notInstalled": "Instale o agente neste workspace para executá-lo."
+  },
+  "runs": {
+    "title": "Execuções",
+    "back": "Voltar às execuções",
+    "notFound": "Execução não encontrada",
+    "pendingTitle": "Aguardando sua aprovação",
+    "noPending": "Nada aguarda sua aprovação.",
+    "review": "Revisar",
+    "history": "Histórico",
+    "filter": "Status",
+    "allStatuses": "Todos os status",
+    "empty": "Nenhuma execução ainda. Instale um agente e execute-o para vê-lo aqui.",
+    "attempts_one": "{{count}} tentativa (máx. {{max}})",
+    "attempts_other": "{{count}} tentativas (máx. {{max}})",
+    "output": "Resultado",
+    "preview": "Prévia (ainda não liberada)",
+    "previewNote": "Isto é o que seria liberado se aprovado. Nada foi entregue ou publicado.",
+    "download": "Baixar {{name}}",
+    "steps": "Passos",
+    "noSteps": "Nenhum passo foi executado.",
+    "cancel": "Cancelar execução",
+    "retry": "Tentar de novo",
+    "status": {
+      "pending": "Pendente",
+      "running": "Em execução",
+      "awaiting_approval": "Aguardando aprovação",
+      "completed": "Concluída",
+      "failed": "Falhou",
+      "canceled": "Cancelada"
+    },
+    "stepStatus": {
+      "pending": "Pendente",
+      "running": "Em execução",
+      "completed": "Feito",
+      "failed": "Falhou",
+      "skipped": "Ignorado"
+    },
+    "approval": {
+      "title": "Aprovação humana necessária",
+      "self": "Esta é a sua conta pessoal: confirme neste segundo passo para liberar o resultado.",
+      "admin": "Um owner ou admin deste workspace precisa aprovar antes de o resultado ser liberado.",
+      "expires": "Expira em {{when}}.",
+      "confirmLabel": "Revisei a prévia e quero liberar este resultado.",
+      "approve": "Aprovar e liberar",
+      "reject": "Rejeitar",
+      "reason": "Motivo (opcional)",
+      "waiting": "Aguardando um owner ou admin decidir.",
+      "result": {
+        "pending": "Pendente",
+        "approved": "Aprovada",
+        "rejected": "Rejeitada"
+      }
+    },
+    "error": {
+      "generic": "A execução falhou.",
+      "unknown_tool": "O agente usa uma ferramenta que não é permitida.",
+      "ai_not_configured": "O agente precisa de IA e nenhuma está configurada.",
+      "limit_input": "A entrada excedeu o limite do agente.",
+      "limit_steps": "O agente excedeu o limite de passos.",
+      "timeout": "A execução excedeu o limite de tempo.",
+      "output_too_large": "O resultado ficou grande demais.",
+      "missing_input": "Faltou uma entrada obrigatória.",
+      "bad_config": "Uma ferramenta está mal configurada.",
+      "tool_error": "Uma ferramenta falhou durante a execução.",
+      "interrupted": "A execução foi interrompida. Você pode tentar de novo."
+    }
+  },
+  "builder": {
+    "title": "Meus agentes",
+    "subtitle": "Crie agentes sem código a partir de uma lista segura de ferramentas determinísticas. Nada aqui usa IA.",
+    "new": "Novo agente",
+    "edit": "Editar agente",
+    "back": "Voltar aos meus agentes",
+    "notFound": "Agente não encontrado",
+    "empty": "Você ainda não criou nenhum agente.",
+    "name": "Nome",
+    "description": "Descrição",
+    "objective": "Objetivo",
+    "instructions": "Instruções",
+    "instructionsHint": "Descreva o que o agente faz. Não peça senhas, chaves ou números de cartão.",
+    "outputFormat": "Formato de saída",
+    "tools": "Ferramentas autorizadas",
+    "toolsHint": "Só as ferramentas desta lista podem executar. Elas rodam numa ordem fixa.",
+    "needsApproval": "sempre exige aprovação humana",
+    "needsAi": "precisa de IA, indisponível",
+    "cfg": {
+      "n": "Termos",
+      "sentences": "Frases",
+      "template": "Modelo (marcadores: summary, keywords, stats, links, outline, actions, clean)"
+    },
+    "limits": "Limites",
+    "limit": {
+      "maxInputChars": "Máx. de caracteres de entrada",
+      "maxSteps": "Máx. de passos",
+      "maxDurationMs": "Tempo máx. (ms)",
+      "maxAttempts": "Máx. de tentativas",
+      "requireApproval": "Sempre exigir aprovação humana"
+    },
+    "save": "Salvar",
+    "validate": "Validação",
+    "validateAction": "Validar agente",
+    "valid": "Nenhum problema encontrado.",
+    "heuristic": "As checagens de termos sensíveis e ações perigosas são heurísticas por palavras-chave: ajudam, mas não são garantia.",
+    "severity": {
+      "error": "Erro",
+      "warning": "Aviso"
+    },
+    "test": "Teste",
+    "testHint": "O teste executa seu rascunho uma vez e mostra o resultado. Não é salvo, não conta no seu limite diário e nunca libera nada.",
+    "testAction": "Executar teste",
+    "testStatus": "Status do teste",
+    "publish": "Publicar",
+    "currentState": "Status: {{status}} · {{visibility}} · versão {{version}}",
+    "visibilityLabel": "Quem pode usar",
+    "workspaceVisibilitySoon": "O compartilhamento com todos de um workspace chega na fase de Empresas.",
+    "confirmPublic": "Entendo que publicar torna este agente visível a todos no marketplace e que ele não volta a ser privado.",
+    "publishAction": "Publicar",
+    "published": "Publicado.",
+    "nothingToPublish": "Esta versão já está publicada. Salve alterações para criar um novo rascunho.",
+    "archive": "Arquivar agente",
+    "versionStatus": {
+      "draft": "rascunho",
+      "published": "publicada",
+      "deprecated": "substituída"
+    },
+    "status": {
+      "draft": "Rascunho",
+      "published": "Publicado",
+      "suspended": "Suspenso",
+      "archived": "Arquivado"
+    },
+    "visibility": {
+      "private": "Privado",
+      "workspace": "Workspace",
+      "public": "Público (marketplace)"
+    },
+    "toolDesc": {
+      "text.clean": "Normaliza espaços e quebras de linha",
+      "text.stats": "Conta palavras, frases e parágrafos",
+      "text.links": "Lista os links encontrados",
+      "text.outline": "Extrai títulos",
+      "text.keywords": "Encontra os termos mais frequentes",
+      "text.actions": "Encontra itens de ação",
+      "text.summarize": "Resumo extrativo (frases do seu texto)",
+      "social.calendar": "Calendário semanal de posts a partir de um tema",
+      "text.template": "Monta o resultado a partir do seu modelo",
+      "ai.generate": "Geração por IA"
+    }
+  },
+  "issues": {
+    "name_empty": "O nome está vazio.",
+    "name_too_long": "O nome é longo demais.",
+    "objective_empty": "O objetivo está vazio.",
+    "instructions_empty": "As instruções estão vazias.",
+    "instructions_too_long": "As instruções são longas demais.",
+    "no_tools": "Selecione pelo menos uma ferramenta.",
+    "tool_not_whitelisted": "Ferramenta não permitida: {{detail}}.",
+    "tool_duplicated": "Ferramenta selecionada duas vezes: {{detail}}.",
+    "tool_bad_config": "Configuração de ferramenta inválida: {{detail}}.",
+    "limits_missing": "Faltam limites: {{detail}}.",
+    "limits_invalid": "Os limites são inválidos.",
+    "steps_exceed_limit": "Há mais passos do que o limite de passos permite.",
+    "output_format_invalid": "O formato de saída é inválido.",
+    "secrets_requested": "O texto pede segredos (senhas, chaves, números de cartão).",
+    "mentions_sensitive_term": "O texto menciona um termo sensível: {{detail}}.",
+    "dangerous_action": "O texto pede uma ação perigosa.",
+    "external_action_unsupported": "A plataforma não executa ações externas (como enviar e-mails ou publicar).",
+    "template_missing": "A ferramenta de modelo precisa de um modelo.",
+    "template_unknown_placeholder": "Marcador desconhecido no modelo: {{detail}}.",
+    "template_placeholder_without_tool": "O modelo usa um valor que nenhuma ferramenta selecionada produz: {{detail}}.",
+    "requires_ai": "Este agente precisa de IA e não pode executar até haver um provedor configurado.",
+    "approval_forced": "As execuções deste agente sempre exigirão aprovação humana."
   }
 }

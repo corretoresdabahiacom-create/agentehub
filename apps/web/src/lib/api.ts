@@ -1,5 +1,18 @@
 import type {
+  AgentBody,
   AgentDetail,
+  CreateExecutionInput,
+  ExecutionDetail,
+  ExecutionListResponse,
+  ExecutionStatusName,
+  MyAgentDetail,
+  MyAgentSummary,
+  PendingApprovalItem,
+  PublishInput,
+  TestRunResponse,
+  ToolsResponse,
+  ValidateResponse,
+  ExecutionInput,
   CatalogQuery,
   CatalogResponse,
   CategoryWithCount,
@@ -95,6 +108,61 @@ export const api = {
     }),
   deleteReview: (slug: string) =>
     request<unknown>(`/api/agents/${encodeURIComponent(slug)}/review`, { method: 'DELETE' }),
+
+  // ---- construtor
+  tools: () => request<ToolsResponse>('/api/tools'),
+  myAgents: () => request<{ agents: MyAgentSummary[] }>('/api/my/agents'),
+  myAgent: (id: string) => request<MyAgentDetail>(`/api/my/agents/${encodeURIComponent(id)}`),
+  createAgent: (body: AgentBody) =>
+    request<MyAgentDetail>('/api/my/agents', { method: 'POST', body: JSON.stringify(body) }),
+  updateAgent: (id: string, body: Omit<AgentBody, 'workspaceId'>) =>
+    request<MyAgentDetail>(`/api/my/agents/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    }),
+  validateAgent: (id: string) =>
+    request<ValidateResponse>(`/api/my/agents/${encodeURIComponent(id)}/validate`, {
+      method: 'POST',
+      body: '{}',
+    }),
+  testAgent: (id: string, input: ExecutionInput) =>
+    request<TestRunResponse>(`/api/my/agents/${encodeURIComponent(id)}/test-run`, {
+      method: 'POST',
+      body: JSON.stringify({ input }),
+    }),
+  publishAgent: (id: string, body: PublishInput) =>
+    request<MyAgentDetail>(`/api/my/agents/${encodeURIComponent(id)}/publish`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  archiveAgent: (id: string) =>
+    request<{ archived: true }>(`/api/my/agents/${encodeURIComponent(id)}/archive`, {
+      method: 'POST',
+      body: '{}',
+    }),
+
+  // ---- execuções
+  runAgent: (body: CreateExecutionInput) =>
+    request<ExecutionDetail>('/api/executions', { method: 'POST', body: JSON.stringify(body) }),
+  executions: (q: { status?: ExecutionStatusName; page?: number }) =>
+    request<ExecutionListResponse>(`/api/executions${toQuery(q)}`),
+  execution: (id: string) => request<ExecutionDetail>(`/api/executions/${encodeURIComponent(id)}`),
+  approvals: () => request<{ approvals: PendingApprovalItem[] }>('/api/approvals'),
+  decide: (id: string, action: 'approve' | 'reject', body: Record<string, unknown>) =>
+    request<ExecutionDetail>(`/api/executions/${encodeURIComponent(id)}/${action}`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  cancelExecution: (id: string) =>
+    request<ExecutionDetail>(`/api/executions/${encodeURIComponent(id)}/cancel`, {
+      method: 'POST',
+      body: '{}',
+    }),
+  retryExecution: (id: string) =>
+    request<ExecutionDetail>(`/api/executions/${encodeURIComponent(id)}/retry`, {
+      method: 'POST',
+      body: '{}',
+    }),
 };
 
 /** Monta a query string omitindo valores vazios/padrão (a API rejeita string vazia em `category`). */

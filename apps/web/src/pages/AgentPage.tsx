@@ -2,15 +2,17 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router';
 import { categoryName, DemoBadge } from '../components/AgentBits';
 import { InstallPanel } from '../components/InstallPanel';
+import { RunForm } from '../components/RunForm';
 import { ReviewSection } from '../components/ReviewSection';
 import { Rating } from '../components/Stars';
 import { ApiError } from '../lib/api';
-import { useAgent } from '../lib/queries';
+import { useAgent, useMe } from '../lib/queries';
 
 export default function AgentPage() {
   const { t, i18n } = useTranslation();
   const { slug = '' } = useParams();
   const { data: agent, error, isPending } = useAgent(slug);
+  const me = useMe();
 
   if (isPending) return <p aria-busy="true">…</p>;
   if (error || !agent) {
@@ -94,7 +96,23 @@ export default function AgentPage() {
             </div>
           </dl>
         </div>
-        <InstallPanel agent={agent} />
+        <div className="space-y-4">
+          <InstallPanel agent={agent} />
+          {me.data && !agent.isDemo && (
+            <RunForm
+              slug={agent.slug}
+              toolKeys={agent.tools}
+              maxInputChars={agent.limits.maxInputChars}
+              requiresApproval={agent.requiresApproval}
+              requiresAi={agent.requiresAi}
+              installedIn={agent.installedWorkspaceIds ?? []}
+              workspaces={me.data.memberships.map((m) => ({
+                id: m.workspaceId,
+                label: `${m.workspaceName} — ${m.organizationName}`,
+              }))}
+            />
+          )}
+        </div>
       </div>
 
       <ReviewSection agent={agent} />

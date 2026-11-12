@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { AgentLimits } from './engine/limits';
 
 export const CATALOG_SORTS = ['newest', 'name', 'rating', 'popular'] as const;
 export type CatalogSort = (typeof CATALOG_SORTS)[number];
@@ -83,6 +84,12 @@ export interface AgentDetail extends AgentSummary {
   objective: string;
   outputFormat: string;
   tools: string[];
+  /** Limites reais do agente (a UI limita a entrada com eles). */
+  limits: AgentLimits;
+  /** A execução termina em aprovação humana (ferramenta sensível ou exigência do agente). */
+  requiresApproval: boolean;
+  /** Algum passo exige IA (hoje nenhuma IA está configurada). */
+  requiresAi: boolean;
   version: number;
   /** Só com sessão. */
   viewer?: {

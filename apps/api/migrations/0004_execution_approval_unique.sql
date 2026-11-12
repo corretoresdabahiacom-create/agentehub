@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `execution_approvals_one_pending_uq` ON `execution_approvals` (`execution_id`) WHERE "execution_approvals"."decision" = 'pending';

@@ -1,6 +1,7 @@
 import type { PublicConfigResponse } from '@agenthub/shared';
 import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
+import { aiStatus } from '../ai/provider';
 import { getDb } from '../db/client';
 import { featureFlags } from '../db/schema';
 import type { AppEnv } from '../env';
@@ -26,7 +27,7 @@ config.get('/', async (c) => {
       status: state,
       siteKey: state === 'enforced' ? c.env.TURNSTILE_SITE_KEY : null,
     },
-    ai: { status: 'not_configured' },
+    ai: { status: aiStatus(c.env) },
     push: { status: 'unavailable' },
     monetization: { enabled: false },
     signupOpen: c.env.SIGNUP_OPEN === 'true' && flag?.enabled === 1,

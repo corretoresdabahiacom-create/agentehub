@@ -39,6 +39,12 @@ export function Layout() {
       <NavLink to="/agents" className={link} onClick={() => setOpen(false)}>
         {t('nav.marketplace')}
       </NavLink>
+      <NavLink to="/builder" className={link} onClick={() => setOpen(false)}>
+        {t('nav.builder')}
+      </NavLink>
+      <NavLink to="/runs" className={link} onClick={() => setOpen(false)}>
+        {t('nav.runs')}
+      </NavLink>
       <NavLink to="/app" className={link} onClick={() => setOpen(false)}>
         {t('nav.dashboard')}
       </NavLink>

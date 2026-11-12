@@ -1,4 +1,4 @@
-# Arquitetura (Fase 1)
+# Arquitetura
 
 ## Visão geral
 
@@ -42,10 +42,20 @@ Manifest + service worker (vite-plugin-pwa/Workbox): faz cache apenas do shell e
 ## Marketplace (Fase 2)
 
 - **Rotas** (`apps/api/src/routes/agents.ts`): `GET /api/agents` (catálogo), `GET /api/agents/:slug`, `GET /api/agents/:slug/reviews`, `GET /api/categories` são **públicas** (sessão opcional enriquece com `favorited`/`installedWorkspaceIds`). `POST/DELETE …/install`, `PUT/DELETE …/favorite`, `PUT/DELETE …/review` exigem sessão e passam pelo CSRF de Origin.
-- **Visibilidade:** só entram `visibility = public`, `status = published` e `current_version_id` não nulo. Rascunho, suspenso, arquivado, privado e de workspace respondem 404. Agentes privados/de workspace são tratados nas Fases 3-4.
+- **Visibilidade:** só entram `visibility = public`, `status = published` e `current_version_id` não nulo. Rascunho, suspenso, arquivado, privado e de workspace respondem 404. Agentes privados aparecem só em Meus agentes (Fase 3); os de workspace chegam na Fase 4.
 - **Catálogo:** busca `LIKE` em nome e descrição (com `ESCAPE`, `%` e `_` são texto), filtro por categoria, ordenação (`newest | name | rating | popular`), escopo (`all | favorites | installed`, os dois últimos exigem sessão) e paginação (máx. 24 por página). Média, contagem de avaliações e instalações são calculadas no banco a cada consulta (sem contadores desnormalizados que possam divergir).
 - **Instalar:** `agent_installations` por (agente, workspace, usuário), idempotente. Só em workspace do qual o usuário é membro (senão 404). Desinstalar marca `uninstalled` (preserva histórico) e só afeta a instalação do próprio usuário.
 - **Avaliar:** exige instalação **e** execução `completed` do próprio usuário, na própria instalação, com `finished_at` nos últimos 90 dias. A resposta 403 traz o motivo (`not_installed` ou `no_recent_completed_execution`). Uma avaliação por usuário e agente (editar atualiza a mesma). Toda avaliação criada é `verified = 1`; a UI mostra o selo “Verificada”. Avaliações `hidden` (moderação, Fase 6) não contam e continuam ocultas depois de o autor editar.
 - **Privacidade das avaliações:** a API nunca devolve autor (nem nome, nem e-mail), só `mine`. O nome de exibição padrão deriva do e-mail, então expô-lo vazaria parte dele.
-- **Demonstração (R5):** `agents.is_demo = 1` faz a UI mostrar o selo **DEMO** e o aviso de que não pode ser executado. As migrações **não** criam agentes; `npm run db:seed-demo:local -w @agenthub/api` cria 3 agentes de demonstração apenas no D1 **local** (o script recusa `--remote`). Sem avaliações, instalações ou números fabricados.
+- **Demonstração (R5):** `agents.is_demo = 1` continua fazendo a UI mostrar o selo **DEMO**, mas nenhum dado de demonstração é criado: a migração 0005 cria apenas os 3 agentes **oficiais** (`is_demo = 0`), e o script `seed-demo` foi removido. Sem avaliações, instalações ou números fabricados.
 - **Estado na URL:** busca, filtros, ordenação e página vivem na query string do frontend (compartilhável; voltar funciona).
+
+## Agentes e execução (Fase 3)
+
+- **Motor puro em `packages/shared/src/engine`** (sem I/O, testável sem Worker): `machine.ts` (estados `pending → running → awaiting_approval | completed | failed | canceled`, com `RETRY` de `failed` para `pending`), `tools.ts` (whitelist de ferramentas determinísticas), `pipeline.ts` (executa as ferramentas numa **ordem canônica** por estágio, com limites), `validate.ts` (validação antes de publicar).
+- **Ferramentas:** `text.clean`, `text.stats`, `text.links`, `text.outline`, `text.keywords`, `text.actions`, `text.summarize`, `social.calendar` (aprovação sempre), `text.template` e `ai.generate` (recusada: sem provedor). Nenhuma faz rede, lê arquivos ou avalia código; templates só substituem marcadores conhecidos.
+- **Execução (`apps/api/src/lib/executions.ts`):** cada transição é um `UPDATE … WHERE status = <anterior>` (guarda otimista); passos, estado final, aprovação/artefato e uso são gravados em **um único `db.batch` atômico**. Recusas (IA, tamanho, entrada obrigatória, cotas) acontecem **antes** de gravar a execução.
+- **Aprovação (ADR 0003):** exigida por ferramenta `approval: always` ou `limits.requireApproval`. Conta individual: `self_second_step` (o próprio usuário confirma num segundo pedido explícito com `confirm: true`). Empresa: `workspace_admin` (owner/admin do workspace). Um índice único parcial garante **uma só aprovação pendente por execução**; aprovar/rejeitar é um batch com UPDATE guardado por `decision = 'pending'`, então decisões concorrentes têm um único vencedor. O resultado só vira artefato depois da aprovação.
+- **Construtor (`/api/my/agents`):** escopado ao criador (404 para alheios). Versão publicada é imutável: editar cria um novo rascunho. Publicar valida (`validation_failed` com a lista de problemas), instala automaticamente e, se público, exige `confirmPublic`.
+- **IA (`apps/api/src/ai/provider.ts`):** interface `AIProvider`; `getAiProvider` devolve `null`. `/api/config` e `/api/tools` informam `ai.status = not_configured`.
+- **Auditoria:** `agent.create/publish/archive`, `execution.create/retry/cancel/approve/reject/expire`. Cada execução também grava um `usage_records` (`metric = execution`).

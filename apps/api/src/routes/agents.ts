@@ -8,6 +8,10 @@ import {
   type CatalogResponse,
   type CategoryInfo,
   type CategoryWithCount,
+  agentLimitsSchema,
+  DEFAULT_LIMITS,
+  getTool,
+  requiresApproval,
   type ReviewIneligibleReason,
   type ReviewsResponse,
 } from '@agenthub/shared';
@@ -17,6 +21,7 @@ import type { AppEnv } from '../env';
 import { audit } from '../lib/audit';
 import { HttpError, parseJson } from '../lib/http';
 import { rateLimit } from '../lib/rate-limit';
+import { parseObject } from '../lib/route-utils';
 import { requireAuth } from '../middleware/authz';
 
 /**
@@ -273,20 +278,34 @@ agentsRoutes.get('/:slug', async (c) => {
   if (!summary) throw new HttpError(404, 'not_found');
 
   const version = await db
-    .prepare('SELECT id, version, objective, output_format FROM agent_versions WHERE id = ?')
+    .prepare(
+      'SELECT id, version, objective, output_format, limits_json FROM agent_versions WHERE id = ?',
+    )
     .bind(row.current_version_id)
-    .first<{ id: string; version: number; objective: string; output_format: string }>();
+    .first<{
+      id: string;
+      version: number;
+      objective: string;
+      output_format: string;
+      limits_json: string;
+    }>();
   if (!version) throw new HttpError(404, 'not_found');
   const tools = await db
     .prepare('SELECT tool_key FROM agent_tools WHERE agent_version_id = ? ORDER BY tool_key')
     .bind(version.id)
     .all<{ tool_key: string }>();
 
+  const toolKeys = tools.results.map((t) => t.tool_key);
+  const parsedLimits = agentLimitsSchema.safeParse(parseObject(version.limits_json));
+  const limits = parsedLimits.success ? parsedLimits.data : DEFAULT_LIMITS;
   const detail: AgentDetail = {
     ...summary,
+    limits,
+    requiresApproval: requiresApproval(toolKeys, limits),
+    requiresAi: toolKeys.some((k) => getTool(k)?.requiresAi),
     objective: version.objective,
     outputFormat: version.output_format,
-    tools: tools.results.map((t) => t.tool_key),
+    tools: toolKeys,
     version: version.version,
   };
   if (userId) {

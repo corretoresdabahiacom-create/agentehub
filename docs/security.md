@@ -1,4 +1,4 @@
-# Segurança (Fase 1)
+# Segurança
 
 ## O que está implementado
 
@@ -36,3 +36,14 @@
 | Abuso                      | Escritas do marketplace limitadas a 60 por 10 min por usuário (D1, mesma técnica do login); CSRF por Origin em todo método com efeito colateral                            |
 
 Riscos conhecidos: leituras públicas não têm rate limit próprio (uma escrita por leitura queimaria o orçamento do D1); o teto de 100.000 requisições/dia do Workers é a barreira. Cada listagem lê poucas linhas indexadas, bem abaixo dos 5 milhões de leituras/dia do D1.
+
+## Agentes e execução (Fase 3)
+
+- **Isolamento:** execução visível só a quem pediu e, em workspace de **empresa**, a owner/admin (para aprovar). Quem não pode ver recebe **404**. Agente privado só é executável pelo criador no workspace dele; agente público exige instalação ativa do usuário no workspace.
+- **Aprovação:** conta individual exige `confirm: true` num segundo pedido; empresa exige owner/admin. Decisão atômica e única (índice único parcial + UPDATE guardado). Expira em 72 h.
+- **Superfície de execução mínima:** só ferramentas da whitelist (puras, sem rede/arquivo/eval); configuração validada por esquema estrito; marcadores de template desconhecidos viram vazio. Entrada limitada a 30.000 caracteres e rejeita campos extras.
+- **Recusa antes do custo:** IA não configurada, entrada grande/ausente e cotas são checadas antes de gravar qualquer linha.
+- **Artefatos:** download só do dono/aprovador, com `Content-Disposition: attachment`, `nosniff`, `Cache-Control: private, no-store` e CSP `sandbox`. A UI mostra a saída como **texto** (nunca HTML).
+- **Construtor:** validação heurística (segredos, ações perigosas) é declarada como **best effort**; publicar público exige confirmação explícita; aprovação obrigatória não pode ser desligada em ferramentas `approval: always`.
+- **Auditoria:** criação/publicação/arquivamento de agente e criação/retry/cancelamento/aprovação/rejeição/expiração de execução. Metadados passam por filtro que recusa chaves com `password|secret|token|…`.
+- **Abuso:** limites de escrita do construtor (60/10 min), de teste (30/10 min), de decisão (60/10 min) e cotas diárias de execução (usuário/workspace/global).

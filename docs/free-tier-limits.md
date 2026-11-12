@@ -43,3 +43,7 @@ Verificado em **2026-11-09** nas páginas oficiais em `developers.cloudflare.com
 - **Caps internos (proposta de partida, 80% do limite):** global 80.000 req/dia; 80.000 escritas D1/dia; 4M leituras D1/dia; recusa com erro claro antes do limite real. Cotas por workspace derivadas do global.
 - **Sem cobrança por excesso** em Workers/D1/KV/Pages/Turnstile Free (a operação falha, não gera fatura). O risco financeiro está apenas no R2.
 - **Fora do escopo por limite ou regra:** Queues, Workflows, Durable Objects, e-mail, push.
+
+## 4. Orçamento medido na Fase 3 (D1: 100.000 escritas/dia)
+
+Uma execução concluída sem aprovação grava ≈ 3 (cotas) + 1 (execução) + 1 (auditoria) + 1 (início) + N passos + 1 (final) + 1 (artefato) + 1 (uso). Com 5 passos: **≈ 15 escritas**; com aprovação, ≈ +4 (aprovação e decisão). O teto global de **3.000 execuções/dia** custa no pior caso **≈ 45.000–60.000 escritas/dia**, deixando folga para cadastro, login e marketplace. Os limites por usuário (50/dia) e por workspace (200/dia) existem para que um só abuso não consuma o orçamento global. Leituras são baratas frente aos 5 M/dia. O custo de CPU por execução com a entrada máxima ainda precisa ser **medido no deploy** (ver `limitations.md`).

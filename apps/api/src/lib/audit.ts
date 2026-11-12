@@ -13,7 +13,16 @@ export type AuditAction =
   | 'agent.install'
   | 'agent.uninstall'
   | 'agent.review'
-  | 'agent.review_delete';
+  | 'agent.review_delete'
+  | 'agent.create'
+  | 'agent.publish'
+  | 'agent.archive'
+  | 'execution.create'
+  | 'execution.retry'
+  | 'execution.cancel'
+  | 'execution.approve'
+  | 'execution.reject'
+  | 'execution.expire';
 
 const FORBIDDEN_KEYS = /pass(word)?|secret|token|authorization|cookie|pepper|hash/i;
 

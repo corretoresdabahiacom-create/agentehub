@@ -29,6 +29,20 @@
       "when": 1794298631982,
       "tag": "0003_seed_categories",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1794429071279,
+      "tag": "0004_execution_approval_unique",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1794429071889,
+      "tag": "0005_seed_official_agents",
+      "breakpoints": true
     }
   ]
 }

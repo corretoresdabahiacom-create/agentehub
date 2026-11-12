@@ -7,6 +7,8 @@ import { sessionMiddleware } from './middleware/session';
 import { agentsRoutes, categoriesRoutes } from './routes/agents';
 import { authRoutes } from './routes/auth';
 import { config } from './routes/config';
+import { approvalsRoutes, executionsRoutes, toolsRoutes } from './routes/executions';
+import { myAgentsRoutes } from './routes/my-agents';
 import { health } from './routes/health';
 import { workspacesRoutes } from './routes/workspaces';
 
@@ -23,6 +25,10 @@ api.route('/auth', authRoutes);
 api.route('/workspaces', workspacesRoutes);
 api.route('/agents', agentsRoutes);
 api.route('/categories', categoriesRoutes);
+api.route('/tools', toolsRoutes);
+api.route('/my/agents', myAgentsRoutes);
+api.route('/executions', executionsRoutes);
+api.route('/approvals', approvalsRoutes);
 // R7: NÃO existe nenhuma rota de cobrança/checkout/assinatura. Qualquer caminho desse tipo cai
 // no 404 abaixo. (test/billing.test.ts garante isso.)
 

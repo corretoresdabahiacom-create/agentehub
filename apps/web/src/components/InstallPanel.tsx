@@ -115,7 +115,6 @@ export function InstallPanel({ agent }: { agent: AgentDetail }) {
           {t('market.installedNote')}
         </p>
       )}
-      <p className="text-xs text-[var(--text-muted)]">{t('market.executionSoon')}</p>
       {!online && <p className="text-sm text-amber-700">{t('auth.offlineBlocked')}</p>}
       {error && (
         <p role="alert" className="text-sm text-red-600" data-testid="action-error">

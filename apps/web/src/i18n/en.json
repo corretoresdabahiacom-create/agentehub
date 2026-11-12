@@ -11,7 +11,9 @@
     "signOut": "Sign out",
     "menu": "Menu",
     "skip": "Skip to content",
-    "marketplace": "Marketplace"
+    "marketplace": "Marketplace",
+    "builder": "Builder",
+    "runs": "Runs"
   },
   "landing": {
     "title": "Agents that execute tasks — under your control",
@@ -64,7 +66,29 @@
     "network": "Could not reach the server. Check your connection.",
     "unauthenticated": "Your session has expired. Please sign in again.",
     "not_found": "That item was not found.",
-    "review_not_qualified": "Only verified users can review this agent."
+    "review_not_qualified": "Only verified users can review this agent.",
+    "forbidden": "You are not allowed to do that.",
+    "quota_exceeded": "The daily execution limit was reached. Try again tomorrow.",
+    "validation_failed": "The agent has problems that must be fixed first. See the list below.",
+    "not_installed": "Install this agent in the selected workspace first.",
+    "ai_not_configured": "This agent needs an AI provider and none is configured on this server.",
+    "limit_input": "The input is longer than this agent allows.",
+    "missing_input": "A required field is empty.",
+    "confirmation_required": "An explicit confirmation is required.",
+    "approval_expired": "The approval request expired and the run was canceled.",
+    "not_awaiting_approval": "This run is not waiting for approval.",
+    "invalid_state": "That action is not possible in the run's current state.",
+    "conflict": "Someone else already changed this. Reload and try again.",
+    "attempts_exhausted": "No attempts left for this run.",
+    "agent_unavailable": "This agent is no longer available.",
+    "agent_misconfigured": "This agent is misconfigured and cannot run.",
+    "agent_suspended": "This agent is suspended.",
+    "agent_limit": "You reached the maximum number of agents.",
+    "visibility_unavailable": "Sharing with a workspace arrives with the Companies phase.",
+    "visibility_locked": "A public agent cannot go back to private. Archive it instead.",
+    "nothing_to_publish": "There is no unpublished version to publish.",
+    "tool_duplicated": "A tool was selected twice.",
+    "tool_config_too_large": "A tool configuration is too large."
   },
   "dashboard": {
     "welcome": "Welcome, {{name}}",
@@ -91,7 +115,8 @@
       "disabled_dev": "Off (development only)",
       "not_configured": "Not configured",
       "unavailable": "Unavailable — in-app notifications only",
-      "off": "Off — no payments exist on this platform"
+      "off": "Off — no payments exist on this platform",
+      "configured": "Configured"
     }
   },
   "offline": {
@@ -161,7 +186,6 @@
     "workspace": "Workspace",
     "installedNote": "Installed in this workspace.",
     "signInToInstall": "to install or favorite this agent.",
-    "executionSoon": "Running agents is not available yet. Installing saves the agent to your workspace for when it is.",
     "backToMarket": "Back to the marketplace",
     "notFound": "Agent not found",
     "objective": "Objective",
@@ -183,5 +207,194 @@
       "not_installed": "Only people who installed this agent and completed a run can review it. Install it first.",
       "no_recent_completed_execution": "You can review once you have a completed run of this agent in the last {{days}} days."
     }
+  },
+  "run": {
+    "title": "Run this agent",
+    "text": "Text",
+    "topic": "Topic",
+    "tone": "Tone",
+    "count": "Number of posts",
+    "chars": "{{count}} / {{max}} characters",
+    "action": "Run agent",
+    "tones": {
+      "neutral": "Neutral",
+      "friendly": "Friendly",
+      "formal": "Formal"
+    },
+    "approvalNote": "The result is only released after a human confirms it.",
+    "aiOff": "This agent needs AI, and no AI provider is configured on this server, so it cannot run.",
+    "notInstalled": "Install the agent in this workspace to run it."
+  },
+  "runs": {
+    "title": "Runs",
+    "back": "Back to runs",
+    "notFound": "Run not found",
+    "pendingTitle": "Waiting for your approval",
+    "noPending": "Nothing is waiting for your approval.",
+    "review": "Review",
+    "history": "History",
+    "filter": "Status",
+    "allStatuses": "All statuses",
+    "empty": "No runs yet. Install an agent and run it to see it here.",
+    "attempts_one": "{{count}} attempt (max {{max}})",
+    "attempts_other": "{{count}} attempts (max {{max}})",
+    "output": "Result",
+    "preview": "Preview (not released yet)",
+    "previewNote": "This is what would be released if approved. Nothing was delivered or published.",
+    "download": "Download {{name}}",
+    "steps": "Steps",
+    "noSteps": "No steps were executed.",
+    "cancel": "Cancel run",
+    "retry": "Try again",
+    "status": {
+      "pending": "Pending",
+      "running": "Running",
+      "awaiting_approval": "Awaiting approval",
+      "completed": "Completed",
+      "failed": "Failed",
+      "canceled": "Canceled"
+    },
+    "stepStatus": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Done",
+      "failed": "Failed",
+      "skipped": "Skipped"
+    },
+    "approval": {
+      "title": "Human approval required",
+      "self": "This is your personal account: confirm in this second step to release the result.",
+      "admin": "An owner or admin of this workspace must approve before the result is released.",
+      "expires": "Expires on {{when}}.",
+      "confirmLabel": "I reviewed the preview and want to release this result.",
+      "approve": "Approve and release",
+      "reject": "Reject",
+      "reason": "Reason (optional)",
+      "waiting": "Waiting for an owner or admin to decide.",
+      "result": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      }
+    },
+    "error": {
+      "generic": "The run failed.",
+      "unknown_tool": "The agent uses a tool that is not allowed.",
+      "ai_not_configured": "The agent needs AI and none is configured.",
+      "limit_input": "The input exceeded the agent's limit.",
+      "limit_steps": "The agent exceeded its step limit.",
+      "timeout": "The run exceeded its time limit.",
+      "output_too_large": "The result was too large.",
+      "missing_input": "A required input was missing.",
+      "bad_config": "A tool is misconfigured.",
+      "tool_error": "A tool failed while running.",
+      "interrupted": "The run was interrupted. You can try again."
+    }
+  },
+  "builder": {
+    "title": "My agents",
+    "subtitle": "Build agents without code from a safe list of deterministic tools. Nothing here uses AI.",
+    "new": "New agent",
+    "edit": "Edit agent",
+    "back": "Back to my agents",
+    "notFound": "Agent not found",
+    "empty": "You have not created any agents yet.",
+    "name": "Name",
+    "description": "Description",
+    "objective": "Objective",
+    "instructions": "Instructions",
+    "instructionsHint": "Describe what the agent does. Do not ask for passwords, keys or card numbers.",
+    "outputFormat": "Output format",
+    "tools": "Authorized tools",
+    "toolsHint": "Only tools from this list can run. They execute in a fixed order.",
+    "needsApproval": "always needs human approval",
+    "needsAi": "needs AI, not available",
+    "cfg": {
+      "n": "Terms",
+      "sentences": "Sentences",
+      "template": "Template (placeholders: summary, keywords, stats, links, outline, actions, clean)"
+    },
+    "limits": "Limits",
+    "limit": {
+      "maxInputChars": "Max input characters",
+      "maxSteps": "Max steps",
+      "maxDurationMs": "Max time (ms)",
+      "maxAttempts": "Max attempts",
+      "requireApproval": "Always require human approval"
+    },
+    "save": "Save",
+    "validate": "Validation",
+    "validateAction": "Validate agent",
+    "valid": "No problems found.",
+    "heuristic": "The sensitive-term and dangerous-action checks are keyword heuristics: they help, but they are not a guarantee.",
+    "severity": {
+      "error": "Error",
+      "warning": "Warning"
+    },
+    "test": "Test",
+    "testHint": "A test runs your draft once and shows the result. It is not saved, does not count toward your daily limit and never releases anything.",
+    "testAction": "Run test",
+    "testStatus": "Test status",
+    "publish": "Publish",
+    "currentState": "Status: {{status}} · {{visibility}} · version {{version}}",
+    "visibilityLabel": "Who can use it",
+    "workspaceVisibilitySoon": "Sharing with everyone in a workspace arrives with the Companies phase.",
+    "confirmPublic": "I understand that publishing makes this agent visible to everyone in the marketplace and that it cannot go back to private.",
+    "publishAction": "Publish",
+    "published": "Published.",
+    "nothingToPublish": "This version is already published. Save changes to create a new draft version.",
+    "archive": "Archive agent",
+    "versionStatus": {
+      "draft": "draft",
+      "published": "published",
+      "deprecated": "replaced"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "suspended": "Suspended",
+      "archived": "Archived"
+    },
+    "visibility": {
+      "private": "Private",
+      "workspace": "Workspace",
+      "public": "Public (marketplace)"
+    },
+    "toolDesc": {
+      "text.clean": "Normalizes spaces and line breaks",
+      "text.stats": "Counts words, sentences and paragraphs",
+      "text.links": "Lists the links found",
+      "text.outline": "Extracts headings",
+      "text.keywords": "Finds the most frequent terms",
+      "text.actions": "Finds action items",
+      "text.summarize": "Extractive summary (sentences from your text)",
+      "social.calendar": "Weekly post calendar from a topic",
+      "text.template": "Assembles the result from your own template",
+      "ai.generate": "AI generation"
+    }
+  },
+  "issues": {
+    "name_empty": "The name is empty.",
+    "name_too_long": "The name is too long.",
+    "objective_empty": "The objective is empty.",
+    "instructions_empty": "The instructions are empty.",
+    "instructions_too_long": "The instructions are too long.",
+    "no_tools": "Select at least one tool.",
+    "tool_not_whitelisted": "Tool not allowed: {{detail}}.",
+    "tool_duplicated": "Tool selected twice: {{detail}}.",
+    "tool_bad_config": "Invalid tool configuration: {{detail}}.",
+    "limits_missing": "Limits are missing: {{detail}}.",
+    "limits_invalid": "Limits are invalid.",
+    "steps_exceed_limit": "There are more steps than the step limit allows.",
+    "output_format_invalid": "The output format is invalid.",
+    "secrets_requested": "The text asks for secrets (passwords, keys, card numbers).",
+    "mentions_sensitive_term": "The text mentions a sensitive term: {{detail}}.",
+    "dangerous_action": "The text asks for a dangerous action.",
+    "external_action_unsupported": "The platform does not perform external actions (like sending e-mails or publishing).",
+    "template_missing": "The template tool needs a template.",
+    "template_unknown_placeholder": "Unknown placeholder in the template: {{detail}}.",
+    "template_placeholder_without_tool": "The template uses a value that no selected tool produces: {{detail}}.",
+    "requires_ai": "This agent needs AI and cannot run until a provider is configured.",
+    "approval_forced": "Runs of this agent will always need human approval."
   }
 }

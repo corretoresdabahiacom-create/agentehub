@@ -19,7 +19,7 @@ export function ServiceStatus() {
       t(`status.values.${data.turnstile.status}`),
       data.turnstile.status === 'enforced',
     ],
-    [t('status.ai'), t('status.values.not_configured'), false],
+    [t('status.ai'), t(`status.values.${data.ai.status}`), data.ai.status === 'configured'],
     [t('status.push'), t('status.values.unavailable'), false],
     [t('status.billing'), t('status.values.off'), false],
   ];

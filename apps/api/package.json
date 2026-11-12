@@ -5,12 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --port 8787",
-    "dev:e2e": "node ../../scripts/setup-dev.mjs && rm -rf .wrangler/e2e-state && wrangler d1 migrations apply agenthub --local --persist-to .wrangler/e2e-state && node scripts/seed-demo.mjs --persist-to .wrangler/e2e-state && wrangler dev --port 8787 --persist-to .wrangler/e2e-state",
+    "dev:e2e": "node ../../scripts/setup-dev.mjs && rm -rf .wrangler/e2e-state && wrangler d1 migrations apply agenthub --local --persist-to .wrangler/e2e-state && wrangler dev --port 8787 --persist-to .wrangler/e2e-state",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply agenthub --local",
-    "db:seed-demo:local": "node scripts/seed-demo.mjs",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {

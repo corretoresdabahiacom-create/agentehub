@@ -53,7 +53,7 @@ export interface MeResponse {
 /** Estado real dos serviços, para a UI nunca mostrar como operacional algo não configurado (R4). */
 export interface PublicConfigResponse {
   turnstile: { status: 'enforced' | 'disabled_dev' | 'not_configured'; siteKey: string | null };
-  ai: { status: 'not_configured' };
+  ai: { status: 'configured' | 'not_configured' };
   push: { status: 'unavailable' };
   monetization: { enabled: false };
   signupOpen: boolean;

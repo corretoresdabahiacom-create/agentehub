@@ -510,6 +510,10 @@ export const executionApprovals = sqliteTable(
   (t) => [
     index('execution_approvals_exec_idx').on(t.executionId),
     index('execution_approvals_approver_idx').on(t.approverUserId),
+    // Uma única aprovação pendente por execução (decisão atômica; ver ADR 0003).
+    uniqueIndex('execution_approvals_one_pending_uq')
+      .on(t.executionId)
+      .where(sql`${t.decision} = 'pending'`),
     check('execution_approvals_decision_ck', oneOf('decision', APPROVAL_DECISION)),
     check('execution_approvals_method_ck', oneOf('method', APPROVAL_METHOD)),
   ],

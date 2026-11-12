@@ -3,7 +3,9 @@ import { completeExecution } from './db';
 
 const PASSWORD = 'correct-horse-battery';
 const uniqueEmail = () => `mkt-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.test`;
-const DOC = 'demo-document-summarizer';
+// Agentes OFICIAIS criados pela migração 0005 (reais, determinísticos, sem IA).
+// Este arquivo roda antes de run.spec.ts (ordem alfabética, workers:1): contagens iniciais são zero.
+const DOC = 'document-summarizer';
 
 async function signup(page: Page, email = uniqueEmail()) {
   await page.goto('/signup');
@@ -15,14 +17,19 @@ async function signup(page: Page, email = uniqueEmail()) {
 }
 
 test.describe('catálogo público', () => {
-  test('lista agentes reais do banco, todos marcados como demo, sem números inventados', async ({
+  test('lista os 3 agentes oficiais reais, sem selo de demonstração e sem números inventados', async ({
     page,
   }) => {
     await page.goto('/agents');
     await expect(page.getByTestId('result-count')).toHaveText('3 agents found');
     const cards = page.getByTestId('agent-card');
     await expect(cards).toHaveCount(3);
-    await expect(page.getByTestId('demo-badge')).toHaveCount(3);
+    await expect(page.getByTestId('demo-badge')).toHaveCount(0);
+    expect((await page.getByTestId('agent-link').allTextContents()).sort()).toEqual([
+      'Document Summarizer',
+      'Research Assistant',
+      'Social Media Planner',
+    ]);
     // Nenhuma avaliação nem instalação foi fabricada.
     await expect(cards.first()).toContainText('No reviews yet');
     await expect(cards.first()).toContainText('0 installs');
@@ -72,13 +79,16 @@ test.describe('catálogo público', () => {
 });
 
 test.describe('página do agente', () => {
-  test('mostra detalhes reais e o aviso de demonstração; anônimo é convidado a entrar', async ({
+  test('mostra detalhes reais, sem aviso de demonstração; anônimo é convidado a entrar', async ({
     page,
   }) => {
     await page.goto(`/agents/${DOC}`);
-    await expect(page.getByTestId('agent-name')).toHaveText('Document Summarizer (demo)');
-    await expect(page.getByTestId('demo-banner')).toContainText('cannot be run');
-    await expect(page.getByText('text.summarize, text.template')).toBeVisible();
+    await expect(page.getByTestId('agent-name')).toHaveText('Document Summarizer');
+    await expect(page.getByTestId('demo-banner')).toHaveCount(0);
+    await expect(
+      page.getByText('text.actions, text.clean, text.outline, text.stats, text.summarize'),
+    ).toBeVisible();
+    await expect(page.getByTestId('run-form')).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Sign in' }).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Install agent' })).toHaveCount(0);
   });
