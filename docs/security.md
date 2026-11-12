@@ -47,3 +47,11 @@ Riscos conhecidos: leituras públicas não têm rate limit próprio (uma escrita
 - **Construtor:** validação heurística (segredos, ações perigosas) é declarada como **best effort**; publicar público exige confirmação explícita; aprovação obrigatória não pode ser desligada em ferramentas `approval: always`.
 - **Auditoria:** criação/publicação/arquivamento de agente e criação/retry/cancelamento/aprovação/rejeição/expiração de execução. Metadados passam por filtro que recusa chaves com `password|secret|token|…`.
 - **Abuso:** limites de escrita do construtor (60/10 min), de teste (30/10 min), de decisão (60/10 min) e cotas diárias de execução (usuário/workspace/global).
+
+## Fase 4 — Empresas
+
+- **Token de convite:** 32 bytes aleatórios, exibido uma vez; armazenado só como SHA-256; nunca vai para auditoria. Aceite concorrente é decidido por `UPDATE … use_count < max_uses` (um vencedor).
+- **Isolamento:** toda rota `/api/workspaces/:id/*` passa por `resolveWorkspace` (não membro → 404, sem revelar existência). Rotas de empresa usam `requireCompany` (workspace pessoal → 422).
+- **Papéis:** owner > admin > member; admin convida/remove só membros; apenas owner convida admin e altera papéis; owner protegido. Removido perde acesso imediato (também à organização).
+- **Open redirect:** o `?next=` pós-login só aceita caminho interno.
+- **Auditoria:** `org.create`, `workspace.create`, `invite.create|revoke|accept`, `member.role_change|remove|quota_set`.

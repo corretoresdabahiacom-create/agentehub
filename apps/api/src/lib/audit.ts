@@ -22,7 +22,15 @@ export type AuditAction =
   | 'execution.cancel'
   | 'execution.approve'
   | 'execution.reject'
-  | 'execution.expire';
+  | 'execution.expire'
+  | 'org.create'
+  | 'workspace.create'
+  | 'invite.create'
+  | 'invite.revoke'
+  | 'invite.accept'
+  | 'member.role_change'
+  | 'member.remove'
+  | 'member.quota_set';
 
 const FORBIDDEN_KEYS = /pass(word)?|secret|token|authorization|cookie|pepper|hash/i;
 

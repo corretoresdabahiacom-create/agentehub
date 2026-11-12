@@ -29,8 +29,17 @@
 - **Tempo é melhor esforço:** no Workers o relógio só avança em operações de E/S, então o limite de duração (`maxDurationMs`) não interrompe um laço puro de CPU. O que protege é o tamanho máximo de entrada (30.000 caracteres), o teto de passos e algoritmos lineares. O custo de CPU com a entrada máxima precisa ser **medido no primeiro deploy** (limite free: 10 ms de CPU por requisição).
 - **Execução é síncrona** dentro da requisição (sem fila: Queues está fora do free tier). Uma queda do Worker no meio deixa a execução em `running`/`pending`; o acesso seguinte a marca como `failed`/`canceled` (`interrupted`) após 2 minutos.
 - **Aprovação expira em 72 h, aplicada no acesso** (sem cron): ela só vira `canceled` quando alguém abre, tenta decidir ou cancela a execução; a fila `/approvals` já oculta as vencidas.
-- **Empresas ainda não podem ser criadas pela interface** (Fase 4). A aprovação por owner/admin é testada na API com workspaces de empresa criados direto no banco de teste; na interface só há conta individual até a Fase 4.
+- **Empresas (Fase 4):** criadas pela interface/API (máx. 3 por usuário, 5 workspaces por empresa, 50 membros por workspace).
 - **Cotas diárias** (50/usuário, 200/workspace, 3.000 globais) usam janelas fixas em UTC e `rate_limit_counters`; a recusa acontece antes de gravar a execução. Um pedido recusado por uma cota pode já ter consumido a cota mais ampla (contagem levemente pessimista).
 - **Teste de agente no construtor não é persistido** e a tabela `agent_tests` ainda não é usada.
 - **Máximo de 25 agentes por usuário**, 4.000 caracteres de instruções e 100.000 de saída, para proteger o orçamento de escritas do D1.
 - **Publicar no marketplace é irreversível** na interface (público não volta a privado; só arquivar) e exige confirmação explícita.
+
+## Fase 4
+
+- **Convite só por link.** Não há e-mail de convite (não existe serviço de e-mail gratuito confirmado). O link aparece **uma única vez**; só o hash SHA-256 fica no banco. Quem perde o link cria outro. Link inválido, expirado, revogado ou esgotado responde igual (404 `invite_invalid`).
+- **Sem transferência de propriedade** nem exclusão de empresa/workspace. O owner não pode ser rebaixado nem removido. Só o owner convida admins e troca papéis.
+- **Biblioteca compartilhada** = agentes com visibilidade `workspace` + agentes públicos instalados por owner/admin. Instalação feita por membro comum não compartilha. Agente de workspace só é editável pelo criador (que precisa continuar membro); se ele sair, o agente segue disponível mas sem editor até haver transferência.
+- **Cota por membro** (0–50/dia, janela UTC) vale só para execuções; não há cota por agente. Cota 0 bloqueia o membro.
+- **Aceite de convite** consome o uso e depois grava as participações (com decremento compensatório em falha); uma queda do Worker exatamente entre os dois passos pode gastar um uso sem criar o membro (raro, o convite pode ser recriado).
+- **Histórico do workspace** é visível só para owner/admin; membro vê apenas as próprias execuções.

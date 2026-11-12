@@ -59,3 +59,7 @@ Manifest + service worker (vite-plugin-pwa/Workbox): faz cache apenas do shell e
 - **Construtor (`/api/my/agents`):** escopado ao criador (404 para alheios). Versão publicada é imutável: editar cria um novo rascunho. Publicar valida (`validation_failed` com a lista de problemas), instala automaticamente e, se público, exige `confirmPublic`.
 - **IA (`apps/api/src/ai/provider.ts`):** interface `AIProvider`; `getAiProvider` devolve `null`. `/api/config` e `/api/tools` informam `ai.status = not_configured`.
 - **Auditoria:** `agent.create/publish/archive`, `execution.create/retry/cancel/approve/reject/expire`. Cada execução também grava um `usage_records` (`metric = execution`).
+
+## Empresas (Fase 4)
+
+`routes/teams.ts` concentra organizações, workspaces extras, convites, membros, cota, uso, histórico e biblioteca. Frontend: `/teams`, `/teams/:workspaceId`, `/invite/:token` (rota pública que leva a login/cadastro com `?next=`). Execução de agente de workspace dispensa instalação para qualquer membro; agente público exige instalação própria ou instalação compartilhada de owner/admin. Decisão em `docs/adr/0004-empresas-e-convites.md`.

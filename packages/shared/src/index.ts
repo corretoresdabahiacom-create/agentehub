@@ -3,3 +3,4 @@ export * from './schemas';
 export * from './marketplace';
 export * from './engine';
 export * from './executions';
+export * from './teams';

@@ -44,6 +44,7 @@ export interface MeResponse {
   memberships: Array<{
     organizationId: string;
     organizationName: string;
+    organizationKind: 'personal' | 'company';
     workspaceId: string;
     workspaceName: string;
     role: 'owner' | 'admin' | 'member';

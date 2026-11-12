@@ -35,3 +35,7 @@ Definido em `apps/api/src/db/schema.ts` (Drizzle) e aplicado por `apps/api/migra
 - **Tabelas agora usadas:** `agent_versions` (limites em `limits_json`; versão publicada imutável), `agent_tools` (`tool_key` + `config_json`), `agent_executions`, `execution_steps` (a prévia curta do passo fica em `output_json`), `execution_approvals`, `execution_artifacts` (texto no D1; R2 desabilitado), `usage_records`, `audit_logs`. `agent_tests` segue sem uso.
 - **Estados da execução:** ver `architecture.md`. `attempts` conta execuções reais (a 1ª e cada retry); `output_json` guarda a prévia enquanto aguarda aprovação e o resultado quando conclui.
 - **Escopo de agente:** privado ⇒ `workspace_id` obrigatório; público ⇒ `workspace_id` nulo (constraint `agents_scope_ck`). Ao publicar como público, o `workspace_id` original recebe a instalação do criador.
+
+## Empresas (Fase 4)
+
+Sem migração nova: usa `organizations(kind='company')`, `workspaces`, `workspace_members`, `organization_members`, `organization_invites` (token_hash, role, expires_at, max_uses, use_count, revoked_at) e `usage_quotas` (scope `member`, scope_id `<workspace>:<usuário>`, metric `executions`, period `day`). Visibilidade `workspace` em `agents` já existia.

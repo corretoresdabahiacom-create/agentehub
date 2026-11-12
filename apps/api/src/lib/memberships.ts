@@ -9,6 +9,7 @@ export async function loadMemberships(db: Db, userId: string): Promise<MeRespons
     .select({
       organizationId: organizations.id,
       organizationName: organizations.name,
+      organizationKind: organizations.kind,
       workspaceId: workspaces.id,
       workspaceName: workspaces.name,
       role: workspaceMembers.role,

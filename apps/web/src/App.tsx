@@ -9,6 +9,9 @@ import Dashboard from './pages/Dashboard';
 import Landing from './pages/Landing';
 import Marketplace from './pages/Marketplace';
 import { NotFoundPage, OfflinePage } from './pages/Misc';
+import InvitePage from './pages/InvitePage';
+import TeamPage from './pages/TeamPage';
+import TeamsPage from './pages/TeamsPage';
 import RunPage from './pages/RunPage';
 import RunsPage from './pages/RunsPage';
 
@@ -27,9 +30,12 @@ export default function App() {
           <Route path="app" element={<Dashboard />} />
           <Route path="builder" element={<BuilderPage />} />
           <Route path="builder/:id" element={<BuilderEditPage />} />
+          <Route path="teams" element={<TeamsPage />} />
+          <Route path="teams/:workspaceId" element={<TeamPage />} />
           <Route path="runs" element={<RunsPage />} />
           <Route path="runs/:id" element={<RunPage />} />
         </Route>
+        <Route path="invite/:token" element={<InvitePage />} />
         <Route path="offline" element={<OfflinePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

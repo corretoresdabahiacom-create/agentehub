@@ -62,7 +62,7 @@ export default function BuilderEditPage() {
   const [outputFormat, setOutputFormat] = useState<(typeof FORMATS)[number]>('markdown');
   const [selected, setSelected] = useState<ToolState>({});
   const [limits, setLimits] = useState<Limits | null>(null);
-  const [visibility, setVisibility] = useState<'private' | 'public'>('private');
+  const [visibility, setVisibility] = useState<'private' | 'workspace' | 'public'>('private');
   const [confirmPublic, setConfirmPublic] = useState(false);
   const [testText, setTestText] = useState('');
   const [testTopic, setTestTopic] = useState('');
@@ -84,6 +84,7 @@ export default function BuilderEditPage() {
     setSelected(Object.fromEntries(data.tools.map((x) => [x.key, x.config])));
     setLimits(data.limits as Limits);
     if (data.visibility === 'public') setVisibility('public');
+    else if (data.visibility === 'workspace') setVisibility('workspace');
   }, [data, loadedKey]);
   useEffect(() => {
     if (isNew && !limits && tools.data) setLimits({ ...tools.data.defaults });
@@ -169,6 +170,10 @@ export default function BuilderEditPage() {
     create.error ?? update.error ?? validate.error ?? test.error ?? publish.error ?? archive.error;
   const saving = create.isPending || update.isPending;
   const published = Boolean(data?.hasPublishedVersion);
+  const agentMembership = me.data?.memberships.find((m) => m.workspaceId === data?.workspaceId);
+  const canShareWorkspace =
+    agentMembership?.organizationKind === 'company' &&
+    (agentMembership.role === 'owner' || agentMembership.role === 'admin');
   const canPublish = !isNew && data?.versionStatus === 'draft';
   const issueText = (i: Issue) =>
     t(`issues.${i.code}`, { defaultValue: i.code, detail: i.detail ?? '' });
@@ -451,11 +456,16 @@ export default function BuilderEditPage() {
                     disabled={data.visibility === 'public'}
                   >
                     <option value="private">{t('builder.visibility.private')}</option>
+                    {canShareWorkspace && (
+                      <option value="workspace">{t('builder.visibility.workspace')}</option>
+                    )}
                     <option value="public">{t('builder.visibility.public')}</option>
                   </select>
                 </label>
                 <p className="text-xs text-[var(--text-muted)]">
-                  {t('builder.workspaceVisibilitySoon')}
+                  {canShareWorkspace
+                    ? t('builder.workspaceVisibilityHint')
+                    : t('builder.workspaceVisibilityCompany')}
                 </p>
                 {visibility === 'public' && (
                   <label className="flex items-start gap-2 text-sm">

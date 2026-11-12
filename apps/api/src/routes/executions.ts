@@ -305,6 +305,23 @@ async function consumeQuotas(db: D1Database, userId: string, workspaceId: string
     'quota_exceeded',
     { scope: 'workspace' },
   );
+  // Cota individual definida por owner/admin para este membro neste workspace (Fase 4).
+  const member = await db
+    .prepare(
+      `SELECT limit_value FROM usage_quotas WHERE scope = 'member' AND scope_id = ? AND metric = 'executions' AND period = 'day'`,
+    )
+    .bind(`${workspaceId}:${userId}`)
+    .first<{ limit_value: number }>();
+  if (member) {
+    await limitOrThrow(
+      db,
+      `exec:member:${workspaceId}:${userId}`,
+      member.limit_value,
+      day,
+      'quota_exceeded',
+      { scope: 'member' },
+    );
+  }
   await limitOrThrow(
     db,
     `exec:user:${userId}`,
@@ -351,15 +368,31 @@ executionsRoutes.post('/', async (c) => {
   let installationId: string | null = null;
   if (!agent) throw new HttpError(404, 'not_found');
   if (agent.visibility === 'public') {
-    const inst = await db
+    // Instalação do próprio usuário OU compartilhada: instalada por owner/admin numa empresa.
+    const mine = await db
       .prepare(
         `SELECT id FROM agent_installations WHERE agent_id = ? AND workspace_id = ? AND user_id = ? AND status = 'active'`,
       )
       .bind(agent.id, ws.id, a.user.id)
       .first<{ id: string }>();
-    if (!inst)
+    const shared =
+      mine ??
+      (ws.kind === 'company'
+        ? await db
+            .prepare(
+              `SELECT i.id FROM agent_installations i
+               JOIN workspace_members m ON m.workspace_id = i.workspace_id AND m.user_id = i.user_id AND m.role IN ('owner','admin')
+               WHERE i.agent_id = ? AND i.workspace_id = ? AND i.status = 'active' LIMIT 1`,
+            )
+            .bind(agent.id, ws.id)
+            .first<{ id: string }>()
+        : null);
+    if (!shared)
       throw new HttpError(403, 'not_installed', 'Install the agent in this workspace first');
-    installationId = inst.id;
+    installationId = mine?.id ?? null;
+  } else if (agent.visibility === 'workspace' && agent.workspace_id === ws.id) {
+    // Biblioteca do workspace: qualquer membro executa, sem instalar.
+    installationId = null;
   } else if (
     agent.visibility === 'private' &&
     agent.creator_user_id === a.user.id &&

@@ -1,4 +1,5 @@
 import type {
+  CreateInviteInput,
   AgentBody,
   CatalogQuery,
   CreateExecutionInput,
@@ -152,3 +153,57 @@ export const useDecide = (id: string) =>
   );
 export const useCancelExecution = (id: string) => useRunMutation(() => api.cancelExecution(id));
 export const useRetryExecution = (id: string) => useRunMutation(() => api.retryExecution(id));
+
+// ------------------------------------------------------------------- empresas
+
+/** Chaves de equipe começam com 'teams' (invalidação em bloco). */
+function useTeamMutation<V, R>(fn: (v: V) => Promise<R>, alsoMe = false) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: fn,
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ['teams'] });
+      if (alsoMe) void qc.invalidateQueries({ queryKey: keys.me });
+    },
+  });
+}
+export const useCreateCompany = () =>
+  useTeamMutation((name: string) => api.createCompany(name), true);
+export const useCreateWorkspace = (orgId: string) =>
+  useTeamMutation((name: string) => api.createWorkspace(orgId, name), true);
+export const useInvitePreview = (token: string) =>
+  useQuery({
+    queryKey: ['teams', 'invite', token],
+    queryFn: () => api.invitePreview(token),
+    retry: false,
+  });
+export const useAcceptInvite = (token: string) =>
+  useTeamMutation(() => api.acceptInvite(token), true);
+export const useInvites = (ws: string, enabled: boolean) =>
+  useQuery({ queryKey: ['teams', ws, 'invites'], queryFn: () => api.invites(ws), enabled });
+export const useCreateInvite = (ws: string) =>
+  useTeamMutation((b: CreateInviteInput) => api.createInvite(ws, b));
+export const useRevokeInvite = (ws: string) =>
+  useTeamMutation((id: string) => api.revokeInvite(ws, id));
+export const useMembers = (ws: string, enabled: boolean) =>
+  useQuery({ queryKey: ['teams', ws, 'members'], queryFn: () => api.members(ws), enabled });
+export const useChangeRole = (ws: string) =>
+  useTeamMutation((v: { userId: string; role: 'admin' | 'member' }) =>
+    api.changeRole(ws, v.userId, v.role),
+  );
+export const useRemoveMember = (ws: string) =>
+  useTeamMutation((userId: string) => api.removeMember(ws, userId), true);
+export const useSetQuota = (ws: string) =>
+  useTeamMutation((v: { userId: string; value: number | null }) =>
+    api.setQuota(ws, v.userId, v.value),
+  );
+export const useUsage = (ws: string) =>
+  useQuery({ queryKey: ['teams', ws, 'usage'], queryFn: () => api.usage(ws) });
+export const useLibrary = (ws: string) =>
+  useQuery({ queryKey: ['teams', ws, 'library'], queryFn: () => api.library(ws) });
+export const useWorkspaceRuns = (ws: string, enabled: boolean, userId?: string, page = 1) =>
+  useQuery({
+    queryKey: ['teams', ws, 'runs', userId ?? 'all', page],
+    queryFn: () => api.workspaceRuns(ws, { userId, page }),
+    enabled,
+  });

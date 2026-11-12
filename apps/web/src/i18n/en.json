@@ -13,7 +13,8 @@
     "skip": "Skip to content",
     "marketplace": "Marketplace",
     "builder": "Builder",
-    "runs": "Runs"
+    "runs": "Runs",
+    "teams": "Teams"
   },
   "landing": {
     "title": "Agents that execute tasks — under your control",
@@ -88,7 +89,14 @@
     "visibility_locked": "A public agent cannot go back to private. Archive it instead.",
     "nothing_to_publish": "There is no unpublished version to publish.",
     "tool_duplicated": "A tool was selected twice.",
-    "tool_config_too_large": "A tool configuration is too large."
+    "tool_config_too_large": "A tool configuration is too large.",
+    "invite_invalid": "This invite link is invalid, expired or no longer available.",
+    "member_limit": "This workspace reached its member limit.",
+    "invite_limit": "Too many active invites. Revoke one first.",
+    "company_limit": "You reached the limit of companies you can create.",
+    "workspace_limit": "This company reached its workspace limit.",
+    "owner_protected": "The owner cannot be changed or removed.",
+    "personal_workspace": "This action is only available in company workspaces."
   },
   "dashboard": {
     "welcome": "Welcome, {{name}}",
@@ -371,7 +379,9 @@
       "social.calendar": "Weekly post calendar from a topic",
       "text.template": "Assembles the result from your own template",
       "ai.generate": "AI generation"
-    }
+    },
+    "workspaceVisibilityHint": "Workspace: every member of this workspace can run it without installing. Public: visible in the marketplace.",
+    "workspaceVisibilityCompany": "Sharing with a workspace needs a company workspace where you are owner or admin."
   },
   "issues": {
     "name_empty": "The name is empty.",
@@ -396,5 +406,70 @@
     "template_placeholder_without_tool": "The template uses a value that no selected tool produces: {{detail}}.",
     "requires_ai": "This agent needs AI and cannot run until a provider is configured.",
     "approval_forced": "Runs of this agent will always need human approval."
+  },
+  "teams": {
+    "title": "Teams",
+    "subtitle": "Companies, workspaces and the people who share agents with you.",
+    "none": "You are not in any company yet. Create one below or open an invite link.",
+    "newCompany": "Create a company",
+    "newCompanyName": "Company name",
+    "newCompanyAction": "Create company",
+    "newWorkspaceName": "New workspace name",
+    "newWorkspaceAction": "Add workspace",
+    "limitsNote": "Limits: {{companies}} companies per user, {{workspaces}} workspaces per company, {{members}} members per workspace.",
+    "companyLimitHint": "You already own the maximum number of companies."
+  },
+  "team": {
+    "notFound": "Workspace not found",
+    "back": "Back to Teams",
+    "yourRole": "Your role: {{role}}",
+    "leave": "Leave workspace",
+    "library": "Shared library",
+    "libraryNote": "Agents shared with this workspace. Any member can run them without installing.",
+    "libraryEmpty": "Nothing shared yet. Owners and admins can publish an agent to the workspace or install one from the marketplace.",
+    "source": {
+      "workspace": "Created for this workspace",
+      "shared_install": "Installed from the marketplace"
+    },
+    "run": "Run",
+    "close": "Close",
+    "usage": "Usage today",
+    "workspaceUsage": "Workspace: {{used}} of {{max}} runs today.",
+    "members": "Members",
+    "member": "Member",
+    "role": "Role",
+    "quota": "Daily quota",
+    "noQuota": "No limit",
+    "save": "Save",
+    "usedToday": "Used today: {{count}}",
+    "remove": "Remove",
+    "invites": "Invite links",
+    "inviteNote": "Invites are links you share yourself. No e-mail is sent. The link is shown only once.",
+    "inviteRole": "Role",
+    "inviteHours": "Valid for (hours)",
+    "inviteUses": "Max uses",
+    "inviteCreate": "Create link",
+    "inviteShownOnce": "Copy this link now. It will not be shown again.",
+    "inviteLink": "Invite link",
+    "copy": "Copy",
+    "copied": "Copied",
+    "inviteUsage": "{{used}}/{{max}} uses",
+    "inviteExpiresAt": "expires {{date}}",
+    "inviteRevoked": "revoked",
+    "inviteInactive": "expired or used up",
+    "revoke": "Revoke",
+    "history": "Workspace history",
+    "historyEmpty": "No runs in this workspace yet.",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "invite": {
+    "title": "Workspace invite",
+    "loginFirst": "Sign in or create an account to see and accept this invite.",
+    "body": "You were invited to {{workspace}} at {{organization}} as {{role}}.",
+    "expires": "Valid until {{date}}.",
+    "already": "You are already a member.",
+    "accept": "Accept invite",
+    "open": "Open workspace"
   }
 }

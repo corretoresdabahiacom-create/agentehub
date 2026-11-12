@@ -1,4 +1,13 @@
 import type {
+  CreateInviteInput,
+  InviteAccepted,
+  InviteCreated,
+  InvitePreview,
+  InviteView,
+  LibraryItem,
+  MemberView,
+  WorkspaceExecutionItem,
+  WorkspaceUsage,
   AgentBody,
   AgentDetail,
   CreateExecutionInput,
@@ -163,6 +172,63 @@ export const api = {
       method: 'POST',
       body: '{}',
     }),
+  // ---- empresas (Fase 4)
+  createCompany: (name: string) =>
+    request<{ memberships: MeResponse['memberships'] }>('/api/organizations', {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    }),
+  createWorkspace: (orgId: string, name: string) =>
+    request<{ memberships: MeResponse['memberships'] }>(
+      `/api/organizations/${encodeURIComponent(orgId)}/workspaces`,
+      { method: 'POST', body: JSON.stringify({ name }) },
+    ),
+  invitePreview: (token: string) =>
+    request<InvitePreview>(`/api/invites/${encodeURIComponent(token)}`),
+  acceptInvite: (token: string) =>
+    request<InviteAccepted>(`/api/invites/${encodeURIComponent(token)}/accept`, {
+      method: 'POST',
+      body: '{}',
+    }),
+  invites: (ws: string) =>
+    request<{ invites: InviteView[] }>(`/api/workspaces/${encodeURIComponent(ws)}/invites`),
+  createInvite: (ws: string, body: CreateInviteInput) =>
+    request<InviteCreated>(`/api/workspaces/${encodeURIComponent(ws)}/invites`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  revokeInvite: (ws: string, id: string) =>
+    request<{ revoked: true }>(
+      `/api/workspaces/${encodeURIComponent(ws)}/invites/${encodeURIComponent(id)}`,
+      { method: 'DELETE' },
+    ),
+  members: (ws: string) =>
+    request<{ members: MemberView[] }>(`/api/workspaces/${encodeURIComponent(ws)}/members`),
+  changeRole: (ws: string, userId: string, role: 'admin' | 'member') =>
+    request<unknown>(
+      `/api/workspaces/${encodeURIComponent(ws)}/members/${encodeURIComponent(userId)}`,
+      { method: 'PATCH', body: JSON.stringify({ role }) },
+    ),
+  removeMember: (ws: string, userId: string) =>
+    request<{ removed: true }>(
+      `/api/workspaces/${encodeURIComponent(ws)}/members/${encodeURIComponent(userId)}`,
+      { method: 'DELETE' },
+    ),
+  setQuota: (ws: string, userId: string, executionsPerDay: number | null) =>
+    request<unknown>(
+      `/api/workspaces/${encodeURIComponent(ws)}/members/${encodeURIComponent(userId)}/quota`,
+      { method: 'PUT', body: JSON.stringify({ executionsPerDay }) },
+    ),
+  usage: (ws: string) => request<WorkspaceUsage>(`/api/workspaces/${encodeURIComponent(ws)}/usage`),
+  library: (ws: string) =>
+    request<{ items: LibraryItem[] }>(`/api/workspaces/${encodeURIComponent(ws)}/library`),
+  workspaceRuns: (ws: string, q: { status?: string; userId?: string; page?: number }) =>
+    request<{
+      executions: WorkspaceExecutionItem[];
+      page: number;
+      pageSize: number;
+      total: number;
+    }>(`/api/workspaces/${encodeURIComponent(ws)}/executions${toQuery(q)}`),
 };
 
 /** Monta a query string omitindo valores vazios/padrão (a API rejeita string vazia em `category`). */

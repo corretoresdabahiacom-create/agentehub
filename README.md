@@ -2,7 +2,7 @@
 
 Plataforma multi-tenant (organização → workspace → membros) para descobrir, instalar, configurar, executar e compartilhar agentes orientados a tarefas, com permissões, histórico, ferramentas autorizadas e aprovação humana. Custo de operação: **R$ 0** (somente free tiers, sem cartão).
 
-> **Estado: Fase 3 concluída (agentes e execução).** Além de cadastro, login, papéis, i18n EN/PT, PWA e marketplace, existem: 3 agentes oficiais **determinísticos (sem IA)**, construtor no-code com validação, execução com máquina de estados e limites, aprovação humana (conta individual: 2º passo; empresa: owner/admin), artefatos de texto, auditoria e cotas diárias. **Não existem** IA generativa (nenhum provedor configurado; a UI e a API dizem isso), push, empresas/convites, painel admin nem cobrança. Os 3 agentes oficiais são os únicos criados por migração; não há avaliações, instalações ou execuções fabricadas (R4/R5).
+> **Estado: Fase 4 concluída (empresas: convite por link, papéis, biblioteca compartilhada, cota por membro, histórico).** Fase 3 (agentes e execução): Além de cadastro, login, papéis, i18n EN/PT, PWA e marketplace, existem: 3 agentes oficiais **determinísticos (sem IA)**, construtor no-code com validação, execução com máquina de estados e limites, aprovação humana (conta individual: 2º passo; empresa: owner/admin), artefatos de texto, auditoria e cotas diárias. **Não existem** IA generativa (nenhum provedor configurado; a UI e a API dizem isso), push, painel admin nem cobrança. Os 3 agentes oficiais são os únicos criados por migração; não há avaliações, instalações ou execuções fabricadas (R4/R5).
 
 ## Estrutura
 

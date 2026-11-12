@@ -56,7 +56,9 @@ async function ownedAgent(db: D1Database, userId: string, id: string): Promise<A
   const row = await db
     .prepare(
       `SELECT id, slug, name, description, visibility, status, workspace_id, current_version_id, updated_at
-       FROM agents WHERE id = ? AND creator_user_id = ? AND status <> 'archived'`,
+       FROM agents WHERE id = ?1 AND creator_user_id = ?2 AND status <> 'archived'
+         AND (workspace_id IS NULL OR EXISTS (
+           SELECT 1 FROM workspace_members m WHERE m.workspace_id = agents.workspace_id AND m.user_id = ?2))`,
     )
     .bind(id, userId)
     .first<AgentRow>();
@@ -363,11 +365,25 @@ myAgentsRoutes.post('/:id/publish', async (c) => {
   const agent = await ownedAgent(db, a.user.id, c.req.param('id'));
   if (agent.status === 'suspended') throw new HttpError(409, 'agent_suspended');
   if (body.visibility === 'workspace') {
-    throw new HttpError(
-      422,
-      'visibility_unavailable',
-      'Workspace sharing arrives with Companies (Phase 4)',
-    );
+    const ctx = agent.workspace_id
+      ? await db
+          .prepare(
+            `SELECT o.kind AS kind, m.role AS role FROM workspaces w
+             JOIN organizations o ON o.id = w.organization_id
+             JOIN workspace_members m ON m.workspace_id = w.id AND m.user_id = ?2
+             WHERE w.id = ?1`,
+          )
+          .bind(agent.workspace_id, a.user.id)
+          .first<{ kind: string; role: string }>()
+      : null;
+    if (!ctx || ctx.kind !== 'company')
+      throw new HttpError(
+        422,
+        'visibility_unavailable',
+        'Workspace sharing needs a company workspace',
+      );
+    if (ctx.role !== 'owner' && ctx.role !== 'admin')
+      throw new HttpError(403, 'forbidden', 'Only owners and admins can share with the workspace');
   }
   if (body.visibility === 'public' && body.confirmPublic !== true) {
     throw new HttpError(
@@ -392,8 +408,7 @@ myAgentsRoutes.post('/:id/publish', async (c) => {
   if (latest.status === 'published')
     throw new HttpError(409, 'nothing_to_publish', 'Version already published');
   const now = Date.now();
-  const makePublic = body.visibility === 'public';
-  const installWorkspace = agent.workspace_id;
+  const installWorkspace = body.visibility === 'workspace' ? null : agent.workspace_id;
   const stmts: D1PreparedStatement[] = [
     db
       .prepare(
@@ -406,7 +421,7 @@ myAgentsRoutes.post('/:id/publish', async (c) => {
         `UPDATE agents SET status = 'published', current_version_id = ?1, visibility = ?2,
            workspace_id = CASE WHEN ?2 = 'public' THEN NULL ELSE workspace_id END, updated_at = ?3 WHERE id = ?4`,
       )
-      .bind(latest.id, makePublic ? 'public' : 'private', now, agent.id),
+      .bind(latest.id, body.visibility, now, agent.id),
   ];
   if (installWorkspace) {
     stmts.push(
@@ -426,7 +441,7 @@ myAgentsRoutes.post('/:id/publish', async (c) => {
     workspaceId: installWorkspace,
     targetType: 'agent',
     targetId: agent.id,
-    metadata: { visibility: makePublic ? 'public' : 'private', version: latest.version },
+    metadata: { visibility: body.visibility, version: latest.version },
   });
   return c.json(await detail(db, await ownedAgent(db, a.user.id, agent.id)));
 });

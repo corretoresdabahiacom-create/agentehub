@@ -40,6 +40,7 @@ export function resolveWorkspace(param = 'workspaceId'): MiddlewareHandler<AppEn
         name: workspaces.name,
         organizationId: organizations.id,
         organizationName: organizations.name,
+        organizationKind: organizations.kind,
         role: workspaceMembers.role,
       })
       .from(workspaceMembers)
@@ -69,3 +70,11 @@ export function requireRole(minimum: WorkspaceRole): MiddlewareHandler<AppEnv> {
     return next();
   };
 }
+
+/** Recursos de equipe (convites, membros, histórico) só existem em organização de empresa. */
+export const requireCompany: MiddlewareHandler<AppEnv> = async (c, next) => {
+  if (c.var.workspace?.organizationKind !== 'company') {
+    throw new HttpError(422, 'personal_workspace', 'Not available for personal workspaces');
+  }
+  return next();
+};

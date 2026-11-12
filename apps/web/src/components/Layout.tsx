@@ -45,6 +45,9 @@ export function Layout() {
       <NavLink to="/runs" className={link} onClick={() => setOpen(false)}>
         {t('nav.runs')}
       </NavLink>
+      <NavLink to="/teams" className={link} onClick={() => setOpen(false)}>
+        {t('nav.teams')}
+      </NavLink>
       <NavLink to="/app" className={link} onClick={() => setOpen(false)}>
         {t('nav.dashboard')}
       </NavLink>

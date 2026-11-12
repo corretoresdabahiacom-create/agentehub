@@ -9,6 +9,7 @@ import { authRoutes } from './routes/auth';
 import { config } from './routes/config';
 import { approvalsRoutes, executionsRoutes, toolsRoutes } from './routes/executions';
 import { myAgentsRoutes } from './routes/my-agents';
+import { invitesRoutes, organizationsRoutes, teamRoutes } from './routes/teams';
 import { health } from './routes/health';
 import { workspacesRoutes } from './routes/workspaces';
 
@@ -23,6 +24,9 @@ api.route('/health', health);
 api.route('/config', config);
 api.route('/auth', authRoutes);
 api.route('/workspaces', workspacesRoutes);
+api.route('/workspaces', teamRoutes);
+api.route('/organizations', organizationsRoutes);
+api.route('/invites', invitesRoutes);
 api.route('/agents', agentsRoutes);
 api.route('/categories', categoriesRoutes);
 api.route('/tools', toolsRoutes);

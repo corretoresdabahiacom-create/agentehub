@@ -47,3 +47,7 @@ Verificado em **2026-11-09** nas páginas oficiais em `developers.cloudflare.com
 ## 4. Orçamento medido na Fase 3 (D1: 100.000 escritas/dia)
 
 Uma execução concluída sem aprovação grava ≈ 3 (cotas) + 1 (execução) + 1 (auditoria) + 1 (início) + N passos + 1 (final) + 1 (artefato) + 1 (uso). Com 5 passos: **≈ 15 escritas**; com aprovação, ≈ +4 (aprovação e decisão). O teto global de **3.000 execuções/dia** custa no pior caso **≈ 45.000–60.000 escritas/dia**, deixando folga para cadastro, login e marketplace. Os limites por usuário (50/dia) e por workspace (200/dia) existem para que um só abuso não consuma o orçamento global. Leituras são baratas frente aos 5 M/dia. O custo de CPU por execução com a entrada máxima ainda precisa ser **medido no deploy** (ver `limitations.md`).
+
+## 5. Fase 4 (empresas)
+
+Convites, membros e cotas são poucas escritas por ação (criar convite ≈ 2, aceitar ≈ 5, mudar papel/cota ≈ 2). Limites duros (3 empresas/usuário, 5 workspaces/empresa, 50 membros/workspace, 20 convites ativos/workspace) impedem crescimento ilimitado de linhas. A cota por membro reutiliza `rate_limit_counters` (1 escrita extra por execução quando há cota definida). Nada usa e-mail, R2 ou serviço pago.

@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { PASSWORD_MAX, PASSWORD_MIN } from '@agenthub/shared';
 import { useCallback, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
+import { safeNext } from '../lib/next';
 import { api, errorKey } from '../lib/api';
 import { useOnline } from '../lib/online';
 import { keys, useConfig } from '../lib/queries';
@@ -29,6 +30,8 @@ const input =
 export function AuthForm({ mode }: { mode: 'signup' | 'login' }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const next = safeNext(search);
   const qc = useQueryClient();
   const online = useOnline();
   const config = useConfig();
@@ -54,7 +57,7 @@ export function AuthForm({ mode }: { mode: 'signup' | 'login' }) {
     },
     onSuccess: (me) => {
       qc.setQueryData(keys.me, me);
-      void navigate('/app', { replace: true });
+      void navigate(next ?? '/app', { replace: true });
     },
   });
 
@@ -178,7 +181,7 @@ export function AuthForm({ mode }: { mode: 'signup' | 'login' }) {
         {mode === 'signup' ? t('auth.haveAccount') : t('auth.noAccount')}{' '}
         <Link
           className="font-medium text-brand-600 underline dark:text-brand-500"
-          to={mode === 'signup' ? '/login' : '/signup'}
+          to={`${mode === 'signup' ? '/login' : '/signup'}${next ? `?next=${encodeURIComponent(next)}` : ''}`}
         >
           {mode === 'signup' ? t('nav.signIn') : t('nav.signUp')}
         </Link>

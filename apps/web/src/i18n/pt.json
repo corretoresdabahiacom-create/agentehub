@@ -13,7 +13,8 @@
     "skip": "Ir para o conteúdo",
     "marketplace": "Marketplace",
     "builder": "Construtor",
-    "runs": "Execuções"
+    "runs": "Execuções",
+    "teams": "Equipes"
   },
   "landing": {
     "title": "Agentes que executam tarefas — sob o seu controle",
@@ -88,7 +89,14 @@
     "visibility_locked": "Um agente público não volta a ser privado. Arquive-o.",
     "nothing_to_publish": "Não há versão não publicada para publicar.",
     "tool_duplicated": "Uma ferramenta foi selecionada duas vezes.",
-    "tool_config_too_large": "A configuração de uma ferramenta é grande demais."
+    "tool_config_too_large": "A configuração de uma ferramenta é grande demais.",
+    "invite_invalid": "Este link de convite é inválido, expirou ou não está mais disponível.",
+    "member_limit": "Este workspace atingiu o limite de membros.",
+    "invite_limit": "Há convites ativos demais. Revogue um primeiro.",
+    "company_limit": "Você atingiu o limite de empresas que pode criar.",
+    "workspace_limit": "Esta empresa atingiu o limite de workspaces.",
+    "owner_protected": "O proprietário não pode ser alterado nem removido.",
+    "personal_workspace": "Esta ação só existe em workspaces de empresa."
   },
   "dashboard": {
     "welcome": "Olá, {{name}}",
@@ -371,7 +379,9 @@
       "social.calendar": "Calendário semanal de posts a partir de um tema",
       "text.template": "Monta o resultado a partir do seu modelo",
       "ai.generate": "Geração por IA"
-    }
+    },
+    "workspaceVisibilityHint": "Workspace: todo membro deste workspace executa sem instalar. Público: visível no marketplace.",
+    "workspaceVisibilityCompany": "Compartilhar com um workspace exige um workspace de empresa em que você seja proprietário ou admin."
   },
   "issues": {
     "name_empty": "O nome está vazio.",
@@ -396,5 +406,70 @@
     "template_placeholder_without_tool": "O modelo usa um valor que nenhuma ferramenta selecionada produz: {{detail}}.",
     "requires_ai": "Este agente precisa de IA e não pode executar até haver um provedor configurado.",
     "approval_forced": "As execuções deste agente sempre exigirão aprovação humana."
+  },
+  "teams": {
+    "title": "Equipes",
+    "subtitle": "Empresas, workspaces e as pessoas que compartilham agentes com você.",
+    "none": "Você ainda não está em nenhuma empresa. Crie uma abaixo ou abra um link de convite.",
+    "newCompany": "Criar uma empresa",
+    "newCompanyName": "Nome da empresa",
+    "newCompanyAction": "Criar empresa",
+    "newWorkspaceName": "Nome do novo workspace",
+    "newWorkspaceAction": "Adicionar workspace",
+    "limitsNote": "Limites: {{companies}} empresas por usuário, {{workspaces}} workspaces por empresa, {{members}} membros por workspace.",
+    "companyLimitHint": "Você já é dono do máximo de empresas."
+  },
+  "team": {
+    "notFound": "Workspace não encontrado",
+    "back": "Voltar para Equipes",
+    "yourRole": "Seu papel: {{role}}",
+    "leave": "Sair do workspace",
+    "library": "Biblioteca compartilhada",
+    "libraryNote": "Agentes compartilhados com este workspace. Qualquer membro executa sem instalar.",
+    "libraryEmpty": "Nada compartilhado ainda. Proprietários e admins podem publicar um agente no workspace ou instalar um do marketplace.",
+    "source": {
+      "workspace": "Criado para este workspace",
+      "shared_install": "Instalado do marketplace"
+    },
+    "run": "Executar",
+    "close": "Fechar",
+    "usage": "Uso hoje",
+    "workspaceUsage": "Workspace: {{used}} de {{max}} execuções hoje.",
+    "members": "Membros",
+    "member": "Membro",
+    "role": "Papel",
+    "quota": "Cota diária",
+    "noQuota": "Sem limite",
+    "save": "Salvar",
+    "usedToday": "Usado hoje: {{count}}",
+    "remove": "Remover",
+    "invites": "Links de convite",
+    "inviteNote": "Convites são links que você mesmo compartilha. Nenhum e-mail é enviado. O link aparece só uma vez.",
+    "inviteRole": "Papel",
+    "inviteHours": "Validade (horas)",
+    "inviteUses": "Máx. de usos",
+    "inviteCreate": "Criar link",
+    "inviteShownOnce": "Copie este link agora. Ele não será mostrado de novo.",
+    "inviteLink": "Link de convite",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "inviteUsage": "{{used}}/{{max}} usos",
+    "inviteExpiresAt": "expira {{date}}",
+    "inviteRevoked": "revogado",
+    "inviteInactive": "expirado ou esgotado",
+    "revoke": "Revogar",
+    "history": "Histórico do workspace",
+    "historyEmpty": "Nenhuma execução neste workspace ainda.",
+    "prev": "Anterior",
+    "next": "Próxima"
+  },
+  "invite": {
+    "title": "Convite para workspace",
+    "loginFirst": "Entre ou crie uma conta para ver e aceitar este convite.",
+    "body": "Você foi convidado para {{workspace}} em {{organization}} como {{role}}.",
+    "expires": "Válido até {{date}}.",
+    "already": "Você já é membro.",
+    "accept": "Aceitar convite",
+    "open": "Abrir workspace"
   }
 }

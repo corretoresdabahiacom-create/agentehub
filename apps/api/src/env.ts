@@ -42,6 +42,7 @@ export interface WorkspaceContext {
   name: string;
   organizationId: string;
   organizationName: string;
+  organizationKind: 'personal' | 'company';
   role: WorkspaceRole;
 }
 
